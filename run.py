@@ -26,6 +26,9 @@ board_size = 10
 # Number of ships Global variable
 number_ships = 4
 
+# global variable for ship locations
+ship_locations = [[]]
+
 # Global variable for shots remaining
 shots_left = 50
 
@@ -59,4 +62,13 @@ def print_board():
     for i in range(len(board[0])):
         print(str(i), end=" ")
     print("")
+
+def make_board():
+    """
+    makes a 10x10 grid board and places down ships randomly.
+    """
+    global board
+    global board_size
+    global number_ships
+    global ship_locations
 
