@@ -5,3 +5,6 @@ import time
 board = [[]]
 # Global variable for the game board size
 board_size = 10
+
+# Number of ships Global variable
+number_ships = 4
