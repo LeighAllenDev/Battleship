@@ -119,5 +119,21 @@ def attempt_ship_placement(row, col, direction, length):
 
     return place_ship(row_start, row_end, col_start, col_end)
 
+def place_ship(row_start, row_end, col_start, col_end):
+    global board
+    global ship_locations
+
+    all_valid = True
+    for r in range(row_start, row_end):
+        for c in range(col_start,col_end):
+            if board[r][c] != ".":
+                all_valid = False
+                break
+    if all_valid:
+        ship_locations.append([row_start, row_end, col_start, col_end])
+        for r in range(row_start, row_end):
+            for c in range(col_start, col_end):
+                board[r][c] = "0"
+    return all_valid
 
 
