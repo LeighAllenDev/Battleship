@@ -95,4 +95,29 @@ def make_board():
             number_ships_placed += 1
 
 
+def attempt_ship_placement(row, col, direction, length):
+
+    global board_size
+
+    row_start, row_end, col_start, col_end = row, row + 1, col, col + 1
+    if direction == "left":
+        if col - length < 0:
+            return False
+        col_start = col - length + 1
+    elif direction == "down":
+        if row + length >= board_size:
+            return False
+        row_end = row + length
+    elif direction == "right":
+        if col + length >= board_size:
+            return False
+        col_end = col + length
+    elif direction == "up":
+        if row - length < 0:
+            return False
+        row_start = row - length + 1
+
+    return place_ship(row_start, row_end, col_start, col_end)
+
+
 
