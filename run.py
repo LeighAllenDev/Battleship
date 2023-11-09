@@ -96,7 +96,9 @@ def make_board():
 
 
 def attempt_ship_placement(row, col, direction, length):
-
+    """
+    Function to attempt to place a ship on the board
+    """
     global board_size
 
     row_start, row_end, col_start, col_end = row, row + 1, col, col + 1
@@ -120,6 +122,9 @@ def attempt_ship_placement(row, col, direction, length):
     return place_ship(row_start, row_end, col_start, col_end)
 
 def place_ship(row_start, row_end, col_start, col_end):
+    """
+    Function to place ships on the board
+    """
     global board
     global ship_locations
 
