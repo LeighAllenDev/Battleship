@@ -141,4 +141,39 @@ def place_ship(row_start, row_end, col_start, col_end):
                 board[r][c] = "0"
     return all_valid
 
+def valid_bullet():
+    """
+    function to get a valif row and column to place bullet
+    """
+    global alphabet
+    global board
 
+    is_valid = False
+    row = -1
+    col = -1
+    while is_valid is False:
+        place_bullet = input("Enter a row (A - J), and a column (0 - 9) such as B4: ")
+        place_bullet = place_bullet.upper()
+        if len(place_bullet) <= 0 or len(place_bullet) > 2:
+            print("Placement Error: Please enter ONE row and column such as B4")
+            continue
+        row = place_bullet[0]
+        col = place_bullet[1]
+        if not row.isalpha() or not col.isnumeric():
+            print("Placement Error: Please enter letter (A - J) for row and number (0 - 9) for column such as B4")
+            continue
+        row = alphabet.find(row)
+        if not (-1 < row < board_size):
+            print("Placement Error: Please enter letter (A - J) for row and number (0 - 9) for column such as B4")
+            continue
+        col = int(col)
+        if not (-1 < col < board_size):
+            print("Placement Error: Please enter letter (A - J) for row and number (0 - 9) for column such as B4")
+            continue
+        if board[row][col] == "#" or board[row][col] == "X":
+            print("Shots already fired there, try another target!")
+            continue
+        if board[row][col] == "." or board[row][grid] == "0":
+            is_valid = True
+
+    return row, col 
