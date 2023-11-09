@@ -8,3 +8,7 @@ board_size = 10
 
 # Number of ships Global variable
 number_ships = 4
+
+# Global variable for shots remaining
+shots_left = 50
+
