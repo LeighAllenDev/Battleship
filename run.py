@@ -173,7 +173,7 @@ def valid_bullet():
         if board[row][col] == "#" or board[row][col] == "X":
             print("Shots already fired there, try another target!")
             continue
-        if board[row][col] == "." or board[row][grid] == "0":
+        if board[row][col] == "." or board[row][col] == "0":
             is_valid = True
 
     return row, col 
