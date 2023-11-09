@@ -1,4 +1,21 @@
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
+"""
+---- TO DO ---
+choose the ships
+
+place the ships on the board
+
+make the board
+
+make a function to make the shots
+
+try to make it multi player (play against the computer)
+
+make functions for hit or missing the ships
+
+make the working game function
+"""
+
 import random
 import time
 # Global variable for the game board
