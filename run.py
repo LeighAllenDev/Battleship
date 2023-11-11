@@ -188,10 +188,12 @@ def make_shot():
     elif BOARD[row][col] == "0":
         print("Bullseye!", end=" ")
         BOARD[row][col] = "X"
-        if ship_shrunk(row, col):
+        if ship_sunk(row, col):
             print("You sunk my battleship!")
             NUM_SHIPS_SUNK += 1
         else:
             print("A ship has been shot")
     
     SHOTS_LEFT -= 1
+
+    def ship_sunk():
