@@ -197,3 +197,18 @@ def make_shot():
     SHOTS_LEFT -= 1
 
     def ship_sunk():
+        global SHIP_LOCATIONS
+        global BOARD
+
+        for location in SHIP_LOCATIONS:
+            row_start = location[0]
+            row_end = location[1]
+            col_start = location[2]
+            col_end = location[3]
+            if row_start <= row <= row_end and col_start <= col <= col_end:
+                for r in range(row_start, row_end):
+                    for c in range(col_start, col_end):
+                        if BOARD[r][c] != "X":
+                            return False
+        return True
+    
