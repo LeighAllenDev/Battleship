@@ -18,48 +18,40 @@ make the working game function
 
 import random
 import time
-# Global variable for the game board
-board = [[]]
-# Global variable for the game board size
-board_size = 10
 
-# Number of ships Global variable
-number_ships = 4
-
-# global variable for ship locations
-ship_locations = [[]]
-
-# Global variable for shots remaining
-shots_left = 50
-
-# Variable for Global alphabet
-alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+#Global Variables
+BOARD = [[]]
+BOARD_SIZE = 10
+NUMBER_SHIPS = 4
+SHIP_LOCATIONS = [[]]
+SHOTS_LEFT = 50
+ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 def print_board():
     """
     Prints the board to the terminal
     """
-    global board
-    global alphabet
+    global BOARD
+    global ALPHABET
 
     debug_mode = True
 
-    alphabet = alphabet[0: len(board) + 1]
+    alphabet = ALPHABET[0: len(BOARD) + 1]
 
-    for row in range(len(board)):
-        print(alphabet[row], end=") ")
-        for col in range(len(board[row])):
-            if board[row][col] == "0":
+    for row in range(len(BOARD)):
+        print(ALPHABET[row], end=") ")
+        for col in range(len(BOARD[row])):
+            if BOARD[row][col] == "0":
                 if debug_mode:
                     print("0", end=" ")
                 else:
                     print(".", end=" ")
             else:
-                print(board[row][col], end=" ")
+                print(BOARD[row][col], end=" ")
         print("")
 
     print("  ", end=" ")
-    for i in range(len(board[0])):
+    for i in range(len(BOARD[0])):
         print(str(i), end=" ")
     print("")
 
@@ -67,14 +59,14 @@ def make_board():
     """
     makes a 10x10 grid board and places down ships randomly.
     """
-    global board
-    global board_size
-    global number_ships
-    global ship_locations
+    global BOARD
+    global BOARD_SIZE
+    global NUMBER_SHIPS
+    global SHIP_LOCATIONS
 
     random.seed(time.time())
 
-    rows, cols = (board_size, board_size)
+    rows, cols = (BOARD_SIZE, BOARD_SIZE)
 
     board = []
     for r in range(rows):
@@ -84,9 +76,9 @@ def make_board():
     
     number_ships_placed = 0
 
-    ship_locations = []
+    SHIP_LOCATIONS = []
 
-    while number_ships_placed != number_ships:
+    while number_ships_placed != NUMBER_SHIPS:
         random_row = random.randint(0, rows - 1)
         random_col = random.randint(0, cols - 1)
         direction = random.choice(["left", "right", "up", "down"])
@@ -99,7 +91,7 @@ def attempt_ship_placement(row, col, direction, length):
     """
     Function to attempt to place a ship on the board
     """
-    global board_size
+    global BOARD_SIZE
 
     row_start, row_end, col_start, col_end = row, row + 1, col, col + 1
     if direction == "left":
@@ -107,11 +99,11 @@ def attempt_ship_placement(row, col, direction, length):
             return False
         col_start = col - length + 1
     elif direction == "down":
-        if row + length >= board_size:
+        if row + length >= BOARD_SIZE:
             return False
         row_end = row + length
     elif direction == "right":
-        if col + length >= board_size:
+        if col + length >= BOARD_SIZE:
             return False
         col_end = col + length
     elif direction == "up":
@@ -125,28 +117,28 @@ def place_ship(row_start, row_end, col_start, col_end):
     """
     Function to place ships on the board
     """
-    global board
-    global ship_locations
+    global BOARD
+    global SHIP_LOCATIONS
 
     all_valid = True
     for r in range(row_start, row_end):
         for c in range(col_start,col_end):
-            if board[r][c] != ".":
+            if BOARD[r][c] != ".":
                 all_valid = False
                 break
     if all_valid:
-        ship_locations.append([row_start, row_end, col_start, col_end])
+        SHIP_LOCATIONS.append([row_start, row_end, col_start, col_end])
         for r in range(row_start, row_end):
             for c in range(col_start, col_end):
-                board[r][c] = "0"
+                BOARD[r][c] = "0"
     return all_valid
 
 def valid_bullet():
     """
     function to get a valif row and column to place bullet
     """
-    global alphabet
-    global board
+    global ALPHABET
+    global BOARD
 
     is_valid = False
     row = -1
@@ -162,18 +154,18 @@ def valid_bullet():
         if not row.isalpha() or not col.isnumeric():
             print("Placement Error: Please enter letter (A - J) for row and number (0 - 9) for column such as B4")
             continue
-        row = alphabet.find(row)
-        if not (-1 < row < board_size):
+        row = ALPHABET.find(row)
+        if not (-1 < row < BOARD_SIZE):
             print("Placement Error: Please enter letter (A - J) for row and number (0 - 9) for column such as B4")
             continue
         col = int(col)
-        if not (-1 < col < board_size):
+        if not (-1 < col < BOARD_SIZE):
             print("Placement Error: Please enter letter (A - J) for row and number (0 - 9) for column such as B4")
             continue
-        if board[row][col] == "#" or board[row][col] == "X":
+        if BOARD[row][col] == "#" or BOARD[row][col] == "X":
             print("Shots already fired there, try another target!")
             continue
-        if board[row][col] == "." or board[row][col] == "0":
+        if BOARD[row][col] == "." or BOARD[row][col] == "0":
             is_valid = True
 
     return row, col 
