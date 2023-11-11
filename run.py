@@ -212,3 +212,17 @@ def make_shot():
                             return False
         return True
     
+def is_game_over():
+    global NUM_SHIPS_SUNK
+    global NUMBER_SHIPS
+    global SHOTS_LEFT
+    global GAME_OVER
+
+    if NUMBER_SHIPS == NUM_SHIPS_SUNK:
+        print("Congratulations, You Won!")
+        GAME_OVER = True
+    elif SHOTS_LEFT <= 0:
+        print("Youve run out of bullets, You lost the game!")
+        print("Better luck next time!")
+        GAME_OVER = True
+
