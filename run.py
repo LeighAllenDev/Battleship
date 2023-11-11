@@ -26,6 +26,9 @@ NUMBER_SHIPS = 4
 SHIP_LOCATIONS = [[]]
 SHOTS_LEFT = 50
 ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+NUM_SHIPS_SUNK = 0
+GAME_OVER = False
+
 
 def print_board():
     """
@@ -169,3 +172,5 @@ def valid_bullet():
             is_valid = True
 
     return row, col 
+
+
