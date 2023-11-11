@@ -173,4 +173,25 @@ def valid_bullet():
 
     return row, col 
 
+def make_shot():
+    global BOARD
+    global NUM_SHIPS_SUNK
+    global SHOTS_LEFT
 
+    row, col = valid_bullet()
+    print("")
+    print("--------------------")
+
+    if BOARD[row][col] == ".":
+        print("You missed, No ships were hit")
+        BOARD[row][col] = "#"
+    elif BOARD[row][col] == "0":
+        print("Bullseye!", end=" ")
+        BOARD[row][col] = "X"
+        if ship_shrunk(row, col):
+            print("You sunk my battleship!")
+            NUM_SHIPS_SUNK += 1
+        else:
+            print("A ship has been shot")
+    
+    SHOTS_LEFT -= 1
