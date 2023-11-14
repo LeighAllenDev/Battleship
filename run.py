@@ -159,6 +159,26 @@ def make_shot():
     global BOARD
     global NUM_SHIPS_SUNK
     global SHOTS_LEFT
+    global GAME_OVER
+
+    def ship_sunk(row, col):
+        global SHIP_LOCATIONS
+        global BOARD
+
+        for location in SHIP_LOCATIONS:
+            row_start, row_end, col_start, col_end = location
+            if row_start <= row <= row_end and col_start <= col <= col_end:
+                for r in range(row_start, row_end + 1):
+                    for c in range(col_start, col_end + 1):
+                        if BOARD[r][c] != "X":
+                            return False
+        return True
+
+    if SHOTS_LEFT <= 0:
+        print("You've run out of bullets, You lost the game!")
+        print("Better luck next time!")
+        GAME_OVER = True
+        return
 
     row, col = valid_bullet()
     print("")
@@ -178,20 +198,7 @@ def make_shot():
     
     SHOTS_LEFT -= 1
 
-def ship_sunk(row, col):
-    global SHIP_LOCATIONS
-    global BOARD
-
-    for location in SHIP_LOCATIONS:
-        row_start, row_end, col_start, col_end = location
-        if row_start <= row <= row_end and col_start <= col <= col_end:
-            for r in range(row_start, row_end):
-                for c in range(col_start, col_end):
-                    if BOARD[r][c] != "X":
-                        return False
-    return True
-
-    
+ 
 def is_game_over():
     global NUM_SHIPS_SUNK
     global NUMBER_SHIPS
@@ -220,7 +227,7 @@ B   B   A   A   T     T   L     E     S   S H   H   I   P     S   S
 BBBB    A   A   T     T   LLLLL EEEEE  SSS  H   H IIIII P      SSS         
 """)
     print("--------------------")
-    print("You have 50 shots to destroy # Ships, Let the battle commence!")
+    print("You have 50 shots to destroy 4 Ships, Let the battle commence!")
     
     make_board()
 
