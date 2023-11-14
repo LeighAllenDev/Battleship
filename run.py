@@ -109,6 +109,7 @@ def place_ship(row_start, row_end, col_start, col_end):
             if BOARD[r][c] != ".":
                 all_valid = False
                 break
+
         if not all_valid:
             break
 
@@ -119,6 +120,7 @@ def place_ship(row_start, row_end, col_start, col_end):
                 BOARD[r][c] = "0"
 
     return all_valid
+
 
 
 def valid_bullet():
