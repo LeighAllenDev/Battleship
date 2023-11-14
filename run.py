@@ -217,16 +217,16 @@ B   B   A   A   T     T   L     E     S   S H   H   I   P     S   S
 BBBB    A   A   T     T   LLLLL EEEEE  SSS  H   H IIIII P      SSS         
 """)
     print("--------------------")
-    print("You have 50 shots to destroy 4 Ships, Let the battle commence!")
+    print("You have 50 shots to destroy 4 Ships, Let the battle commence!\n")
     
     make_board()
 
     while GAME_OVER is False:
         print_board()
-        print("Number of Ships remaining: " + str(NUMBER_SHIPS - NUM_SHIPS_SUNK))
-        print(f"You have {str(SHOTS_LEFT)} Shots remaining.")
+        print("\nNumber of Ships remaining: " + str(NUMBER_SHIPS - NUM_SHIPS_SUNK))
+        print(f"You have {str(SHOTS_LEFT)} Shots remaining.\n")
         make_shot()
-        print("--------------------")
+        print("--------------------\n")
         print("")
         is_game_over()
 
