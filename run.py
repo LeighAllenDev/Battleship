@@ -19,7 +19,7 @@ def print_board():
     global BOARD
     global ALPHABET
 
-    debug_mode = True
+    debug_mode = False
 
     ALPHABET = ALPHABET[:len(BOARD) + 1]
 
@@ -32,9 +32,16 @@ def print_board():
                 print(BOARD[row][col], end=" ")
         print("")
 
+    print(" ", end=" ")
+    for i in range(len(BOARD[0])):
+        print(i, end=" ")
+    print("")
 
 
 def make_board():
+    """
+    Makes a 10x10 grid board and places down ships randomly.
+    """
     global BOARD
     global BOARD_SIZE
     global NUMBER_SHIPS
@@ -44,13 +51,7 @@ def make_board():
 
     rows, cols = (BOARD_SIZE, BOARD_SIZE)
 
-    
-    BOARD = []
-    for r in range(rows):
-        row = []
-        for c in range(cols):
-            row.append(".")
-        BOARD.append(row)
+    BOARD = [["." for _ in range(cols)] for _ in range(rows)]
 
     number_ships_placed = 0
     SHIP_LOCATIONS = []
@@ -62,6 +63,7 @@ def make_board():
         ship_size = random.randint(3, 5)
         if attempt_ship_placement(random_row, random_col, direction, ship_size):
             number_ships_placed += 1
+
 
 
 
@@ -95,25 +97,16 @@ def place_ship(row_start, row_end, col_start, col_end):
     global BOARD
     global SHIP_LOCATIONS
 
-    all_valid = True
+    if any(BOARD[r][c] != "." for r in range(row_start, row_end) for c in range(col_start, col_end)):
+        return False
+
+    SHIP_LOCATIONS.append([row_start, row_end, col_start, col_end])
+
     for r in range(row_start, row_end):
         for c in range(col_start, col_end):
-            if BOARD[r][c] != ".":
-                all_valid = False
-                break
+            BOARD[r][c] = "0"
 
-        if not all_valid:
-            break
-
-    if all_valid:
-        SHIP_LOCATIONS.append([row_start, row_end, col_start, col_end])
-        for r in range(row_start, row_end):
-            for c in range(col_start, col_end):
-                BOARD[r][c] = "0"
-
-    return all_valid
-
-
+    return True
 
 def valid_bullet():
     global ALPHABET
