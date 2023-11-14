@@ -41,9 +41,6 @@ def print_board():
     print("")
 
 def make_board():
-    """
-    makes a 10x10 grid board and places down ships randomly.
-    """
     global BOARD
     global BOARD_SIZE
     global NUMBER_SHIPS
@@ -53,24 +50,25 @@ def make_board():
 
     rows, cols = (BOARD_SIZE, BOARD_SIZE)
 
+    
     BOARD = []
     for r in range(rows):
         row = []
         for c in range(cols):
             row.append(".")
-    BOARD.append(row)
-    
-    number_ships_placed = 0
+        BOARD.append(row)
 
+    number_ships_placed = 0
     SHIP_LOCATIONS = []
 
     while number_ships_placed != NUMBER_SHIPS:
         random_row = random.randint(0, rows - 1)
         random_col = random.randint(0, cols - 1)
         direction = random.choice(["left", "right", "up", "down"])
-        ship_size = random.randint(3,5)
+        ship_size = random.randint(3, 5)
         if attempt_ship_placement(random_row, random_col, direction, ship_size):
             number_ships_placed += 1
+
 
 
 def attempt_ship_placement(row, col, direction, length):
