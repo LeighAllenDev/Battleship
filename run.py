@@ -58,6 +58,7 @@ def make_board():
         row = []
         for c in range(cols):
             row.append(".")
+    BOARD.append(row)
     
     number_ships_placed = 0
 
