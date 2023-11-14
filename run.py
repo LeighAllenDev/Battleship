@@ -1,21 +1,3 @@
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
-"""
----- TO DO ---
-choose the ships
-
-place the ships on the board
-
-make the board
-
-make a function to make the shots
-
-try to make it multi player (play against the computer)
-
-make functions for hit or missing the ships
-
-make the working game function
-"""
-
 import random
 import time
 
@@ -71,7 +53,7 @@ def make_board():
 
     rows, cols = (BOARD_SIZE, BOARD_SIZE)
 
-    board = []
+    BOARD = []
     for r in range(rows):
         row = []
         for c in range(cols):
@@ -85,7 +67,7 @@ def make_board():
         random_row = random.randint(0, rows - 1)
         random_col = random.randint(0, cols - 1)
         direction = random.choice(["left", "right", "up", "down"])
-        ship_size = random.randint(2,3,3,5)
+        ship_size = random.randint(3,5)
         if attempt_ship_placement(random_row, random_col, direction, ship_size):
             number_ships_placed += 1
 
@@ -117,24 +99,26 @@ def attempt_ship_placement(row, col, direction, length):
     return place_ship(row_start, row_end, col_start, col_end)
 
 def place_ship(row_start, row_end, col_start, col_end):
-    """
-    Function to place ships on the board
-    """
     global BOARD
     global SHIP_LOCATIONS
 
     all_valid = True
     for r in range(row_start, row_end):
-        for c in range(col_start,col_end):
+        for c in range(col_start, col_end):
             if BOARD[r][c] != ".":
                 all_valid = False
                 break
+        if not all_valid:
+            break
+
     if all_valid:
         SHIP_LOCATIONS.append([row_start, row_end, col_start, col_end])
         for r in range(row_start, row_end):
             for c in range(col_start, col_end):
                 BOARD[r][c] = "0"
+
     return all_valid
+
 
 def valid_bullet():
     """
@@ -196,21 +180,19 @@ def make_shot():
     
     SHOTS_LEFT -= 1
 
-    def ship_sunk():
-        global SHIP_LOCATIONS
-        global BOARD
+def ship_sunk(row, col):
+    global SHIP_LOCATIONS
+    global BOARD
 
-        for location in SHIP_LOCATIONS:
-            row_start = location[0]
-            row_end = location[1]
-            col_start = location[2]
-            col_end = location[3]
-            if row_start <= row <= row_end and col_start <= col <= col_end:
-                for r in range(row_start, row_end):
-                    for c in range(col_start, col_end):
-                        if BOARD[r][c] != "X":
-                            return False
-        return True
+    for location in SHIP_LOCATIONS:
+        row_start, row_end, col_start, col_end = location
+        if row_start <= row <= row_end and col_start <= col <= col_end:
+            for r in range(row_start, row_end):
+                for c in range(col_start, col_end):
+                    if BOARD[r][c] != "X":
+                        return False
+    return True
+
     
 def is_game_over():
     global NUM_SHIPS_SUNK
@@ -226,3 +208,32 @@ def is_game_over():
         print("Better luck next time!")
         GAME_OVER = True
 
+def main():
+    global GAME_OVER
+
+    print("     ----- WELCOME TO -----     ")
+    print("""
+BBBB      A   TTTTT TTTTT L     EEEEE  SSS  H   H IIIII PPPP   SSS  
+B   B    A A    T     T   L     E     S   S H   H   I   P   P S   S
+B  B    A   A   T     T   L     E     S     H   H   I   P   P S    
+BBB     AAAAA   T     T   L     EEEEE  SSS  HHHHH   I   PPP    SSS  
+B  B    A   A   T     T   L     E         S H   H   I   P         S
+B   B   A   A   T     T   L     E     S   S H   H   I   P     S   S
+BBBB    A   A   T     T   LLLLL EEEEE  SSS  H   H IIIII P      SSS         
+""")
+    print("--------------------")
+    print("You have 50 shots to destroy # Ships, Let the battle commence!")
+    
+    make_board()
+
+    while GAME_OVER is False:
+        print_board()
+        print("Number of Ships remaining: " + str(NUMBER_SHIPS - NUM_SHIPS_SUNK))
+        print(f"You have ${str(SHOTS_LEFT)}.")
+        make_shot()
+        print("--------------------")
+        print("")
+        is_game_over()
+
+if __name__ == "__main__":
+    main()
