@@ -13,32 +13,29 @@ GAME_OVER = False
 
 
 def print_board():
-    """
-    Prints the board to the terminal
-    """
     global BOARD
     global ALPHABET
 
-    debug_mode = True
+    debug_mode = False
 
     alphabet = ALPHABET[0: len(BOARD) + 1]
 
     for row in range(len(BOARD)):
         print(ALPHABET[row], end=") ")
         for col in range(len(BOARD[row])):
-            if BOARD[row][col] == "0":
-                if debug_mode:
-                    print("0", end=" ")
-                else:
-                    print(".", end=" ")
-            else:
+            if BOARD[row][col] == "#" or BOARD[row][col] == "X":
                 print(BOARD[row][col], end=" ")
+            elif BOARD[row][col] == "0" and debug_mode:
+                print("0", end=" ")
+            else:
+                print(".", end=" ")
         print("")
 
     print("  ", end=" ")
     for i in range(len(BOARD[0])):
         print(str(i), end=" ")
     print("")
+
 
 def make_board():
     global BOARD
@@ -230,7 +227,7 @@ BBBB    A   A   T     T   LLLLL EEEEE  SSS  H   H IIIII P      SSS
     while GAME_OVER is False:
         print_board()
         print("Number of Ships remaining: " + str(NUMBER_SHIPS - NUM_SHIPS_SUNK))
-        print(f"You have ${str(SHOTS_LEFT)}.")
+        print(f"You have {str(SHOTS_LEFT)} Shots remaining.")
         make_shot()
         print("--------------------")
         print("")
