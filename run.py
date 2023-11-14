@@ -2,39 +2,36 @@ import random
 import time
 
 #Global Variables
-BOARD = [[]]
 BOARD_SIZE = 10
 NUMBER_SHIPS = 4
-SHIP_LOCATIONS = [[]]
 SHOTS_LEFT = 50
 ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+BOARD = [["." for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+SHIP_LOCATIONS = [[]]
 NUM_SHIPS_SUNK = 0
 GAME_OVER = False
 
 
 def print_board():
+    """
+    Prints the board to the terminal
+    """
     global BOARD
     global ALPHABET
 
-    debug_mode = False
+    debug_mode = True
 
-    alphabet = ALPHABET[0: len(BOARD) + 1]
+    ALPHABET = ALPHABET[:len(BOARD) + 1]
 
     for row in range(len(BOARD)):
         print(ALPHABET[row], end=") ")
         for col in range(len(BOARD[row])):
-            if BOARD[row][col] == "#" or BOARD[row][col] == "X":
-                print(BOARD[row][col], end=" ")
-            elif BOARD[row][col] == "0" and debug_mode:
-                print("0", end=" ")
+            if BOARD[row][col] == "0":
+                print("0" if debug_mode else ".", end=" ")
             else:
-                print(".", end=" ")
+                print(BOARD[row][col], end=" ")
         print("")
 
-    print("  ", end=" ")
-    for i in range(len(BOARD[0])):
-        print(str(i), end=" ")
-    print("")
 
 
 def make_board():
