@@ -119,32 +119,21 @@ def place_ship(row_start, row_end, col_start, col_end):
 
 
 def valid_bullet():
-    """
-    function to get a valif row and column to place bullet
-    """
     global ALPHABET
     global BOARD
 
     is_valid = False
     row = -1
     col = -1
-    while is_valid is False:
+    while not is_valid:
         place_bullet = input("Enter a row (A - J), and a column (0 - 9) such as B4: ")
         place_bullet = place_bullet.upper()
-        if len(place_bullet) <= 0 or len(place_bullet) > 2:
-            print("Placement Error: Please enter ONE row and column such as B4")
+        if len(place_bullet) != 2:
+            print("Placement Error: Please enter ONE row and ONE column such as B4")
             continue
-        row = place_bullet[0]
-        col = place_bullet[1]
-        if not row.isalpha() or not col.isnumeric():
-            print("Placement Error: Please enter letter (A - J) for row and number (0 - 9) for column such as B4")
-            continue
-        row = ALPHABET.find(row)
-        if not (-1 < row < BOARD_SIZE):
-            print("Placement Error: Please enter letter (A - J) for row and number (0 - 9) for column such as B4")
-            continue
-        col = int(col)
-        if not (-1 < col < BOARD_SIZE):
+        row = ALPHABET.find(place_bullet[0])
+        col = int(place_bullet[1])
+        if not (0 <= row < BOARD_SIZE) or not (0 <= col < BOARD_SIZE):
             print("Placement Error: Please enter letter (A - J) for row and number (0 - 9) for column such as B4")
             continue
         if BOARD[row][col] == "#" or BOARD[row][col] == "X":
@@ -153,7 +142,8 @@ def valid_bullet():
         if BOARD[row][col] == "." or BOARD[row][col] == "0":
             is_valid = True
 
-    return row, col 
+    return row, col
+
 
 def make_shot():
     global BOARD
