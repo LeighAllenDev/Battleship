@@ -150,23 +150,7 @@ def valid_bullet():
 
 
 def make_shot():
-    """
-    Function that allows the player to make a shot
-    """
     global BOARD, NUM_SHIPS_SUNK, SHOTS_LEFT, GAME_OVER
-
-    def ship_sunk(row, col):
-        global SHIP_LOCATIONS
-        global BOARD
-
-        for location in SHIP_LOCATIONS:
-            row_start, row_end, col_start, col_end = location
-            if row_start <= row <= row_end and col_start <= col <= col_end:
-                for r in range(row_start, row_end + 1):
-                    for c in range(col_start, col_end + 1):
-                        if BOARD[r][c] != "X":
-                            return False
-        return True
 
     if SHOTS_LEFT <= 0:
         print("You've run out of bullets, You lost the game!")
@@ -175,8 +159,7 @@ def make_shot():
         return
 
     row, col = valid_bullet()
-    print("")
-    print("--------------------")
+    print("\n--------------------")
 
     if BOARD[row][col] == ".":
         print("You missed, No ships were hit")
@@ -191,6 +174,20 @@ def make_shot():
             print("A ship has been shot")
     
     SHOTS_LEFT -= 1
+
+
+def ship_sunk(row, col):
+    global SHIP_LOCATIONS, BOARD
+
+    for location in SHIP_LOCATIONS:
+        row_start, row_end, col_start, col_end = location
+        if row_start <= row <= row_end and col_start <= col <= col_end:
+            for r in range(row_start, row_end + 1):
+                for c in range(col_start, col_end + 1):
+                    if BOARD[r][c] != "X":
+                        return False
+    return True
+
 
  
 def is_game_over():
