@@ -11,6 +11,21 @@ SHIP_LOCATIONS = [[]]
 NUM_SHIPS_SUNK = 0
 GAME_OVER = False
 
+def setup_game():
+    """
+    Function to allow the user to set up the game
+    """
+    global BOARD_SIZE, NUMBER_SHIPS, SHOTS_LEFT, BOARD
+    try:
+        BOARD_SIZE = int(input("Enter board size (e.g., 10 for a 10x10 board): "))
+        NUMBER_SHIPS = int(input("Enter the number of ships: "))
+        SHOTS_LEFT = int(input("Enter the number of shots you have: "))
+    except ValueError:
+        print("Invalid input. Please enter a valid number.")
+        setup_game()
+
+    BOARD = [["." for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+    make_board()
 
 def print_board():
     """
