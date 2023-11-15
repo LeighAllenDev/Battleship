@@ -35,7 +35,7 @@ def print_board():
 
     debug_mode = False
 
-    ALPHABET = ALPHABET[:len(BOARD) + 1]
+    ALPHABET = ALPHABET[:len(BOARD)]
 
     for row in range(len(BOARD)):
         print(ALPHABET[row], end=") ")
