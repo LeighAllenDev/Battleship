@@ -109,6 +109,9 @@ def place_ship(row_start, row_end, col_start, col_end):
     return True
 
 def valid_bullet():
+    """
+    Function to determine whether the input from the user is valid
+    """
     global ALPHABET
     global BOARD
 
@@ -136,6 +139,9 @@ def valid_bullet():
 
 
 def make_shot():
+    """
+    Function that allows the player to make a shot
+    """
     global BOARD
     global NUM_SHIPS_SUNK
     global SHOTS_LEFT
@@ -180,6 +186,10 @@ def make_shot():
 
  
 def is_game_over():
+    """
+    function to check of the game is over
+    and whether the player wins or looses
+    """
     global NUM_SHIPS_SUNK
     global NUMBER_SHIPS
     global SHOTS_LEFT
@@ -194,6 +204,11 @@ def is_game_over():
         GAME_OVER = True
 
 def main():
+    """
+    The main function
+    determines what order the functions are run in
+    controls the working of the game
+    """
     global GAME_OVER
 
     print("     ----- WELCOME TO -----     ")
