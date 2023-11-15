@@ -227,7 +227,7 @@ BBBB    A   A   T     T   LLLLL EEEEE  SSS  H   H IIIII P      SSS
     print("--------------------")
 
     setup_game()
-    print("You have 50 shots to destroy 4 Ships, Let the battle commence!\n")
+    print(f"You have {SHOTS_LEFT} shots to destroy {NUMBER_SHIPS} Ships, Let the battle commence!\n")
     
     make_board()
 
