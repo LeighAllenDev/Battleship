@@ -34,6 +34,7 @@ def setup_game():
         setup_game()
 
     BOARD = [["." for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+    make_board()
 
 def print_board():
     """
@@ -198,7 +199,10 @@ def is_game_over():
     global NUM_SHIPS_SUNK, NUMBER_SHIPS, SHOTS_LEFT, GAME_OVER, GAME_TITLE
 
     if NUMBER_SHIPS == NUM_SHIPS_SUNK:
-        print("Congratulations, You Won!")
+        print("Congratulations, You Won!\n")
+        print("     ----- Thank You for playing -----     ")
+        print(GAME_TITLE)
+        print("--------------------")
         GAME_OVER = True
     elif SHOTS_LEFT <= 0:
         print("Youve run out of bullets, You lost the game!")
@@ -213,10 +217,7 @@ def main():
     print("     ----- WELCOME TO -----     ")
     print(GAME_TITLE)  
     print("--------------------")
-
     setup_game()
-    make_board()
-
     print(f"You have {SHOTS_LEFT} shots to destroy {NUMBER_SHIPS} Ships, Let the battle commence!\n")
     
     while not GAME_OVER:
