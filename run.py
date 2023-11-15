@@ -76,47 +76,49 @@ def make_board():
             number_ships_placed += 1
 
 
-
-
 def attempt_ship_placement(row, col, direction, length):
-    """
-    Function to attempt to place a ship on the board
-    """
     global BOARD_SIZE
 
-    row_start, row_end, col_start, col_end = row, row + 1, col, col + 1
+    row_start, row_end, col_start, col_end = row, row, col, col
+
     if direction == "left":
         if col - length < 0:
             return False
         col_start = col - length + 1
-    elif direction == "down":
-        if row + length >= BOARD_SIZE:
-            return False
-        row_end = row + length
     elif direction == "right":
-        if col + length >= BOARD_SIZE:
+        if col + length > BOARD_SIZE:
             return False
-        col_end = col + length
+        col_end = col + length - 1
     elif direction == "up":
         if row - length < 0:
             return False
         row_start = row - length + 1
+    elif direction == "down":
+        if row + length > BOARD_SIZE:
+            return False
+        row_end = row + length - 1
+
+    if row_start < 0 or row_end >= BOARD_SIZE or col_start < 0 or col_end >= BOARD_SIZE:
+        return False
 
     return place_ship(row_start, row_end, col_start, col_end)
+
 
 def place_ship(row_start, row_end, col_start, col_end):
     global BOARD, SHIP_LOCATIONS
 
-    if any(BOARD[r][c] != "." for r in range(row_start, row_end) for c in range(col_start, col_end)):
-        return False
+    for r in range(max(0, row_start - 1), min(BOARD_SIZE, row_end + 2)):
+        for c in range(max(0, col_start - 1), min(BOARD_SIZE, col_end + 2)):
+            if BOARD[r][c] != ".":
+                return False
 
     SHIP_LOCATIONS.append([row_start, row_end, col_start, col_end])
-
-    for r in range(row_start, row_end):
-        for c in range(col_start, col_end):
+    for r in range(row_start, row_end + 1):
+        for c in range(col_start, col_end + 1):
             BOARD[r][c] = "0"
 
     return True
+
 
 def valid_bullet():
     """
