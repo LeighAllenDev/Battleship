@@ -10,6 +10,15 @@ BOARD = [["." for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 SHIP_LOCATIONS = []
 NUM_SHIPS_SUNK = 0
 GAME_OVER = False
+GAME_TITLE = """
+BBBB      A   TTTTT TTTTT L     EEEEE  SSS  H   H IIIII PPPP   SSS  
+B   B    A A    T     T   L     E     S   S H   H   I   P   P S   S
+B  B    A   A   T     T   L     E     S     H   H   I   P   P S    
+BBB     AAAAA   T     T   L     EEEEE  SSS  HHHHH   I   PPP    SSS  
+B  B    A   A   T     T   L     E         S H   H   I   P         S
+B   B   A   A   T     T   L     E     S   S H   H   I   P     S   S
+BBBB    A   A   T     T   LLLLL EEEEE  SSS  H   H IIIII P      SSS
+"""
 
 def setup_game():
     """
@@ -150,13 +159,7 @@ def valid_bullet():
 
 
 def make_shot():
-    global BOARD, NUM_SHIPS_SUNK, SHOTS_LEFT, GAME_OVER
-
-    if SHOTS_LEFT <= 0:
-        print("You've run out of bullets, You lost the game!")
-        print("Better luck next time!")
-        GAME_OVER = True
-        return
+    global BOARD, NUM_SHIPS_SUNK, SHOTS_LEFT
 
     row, col = valid_bullet()
     print("\n--------------------")
@@ -188,14 +191,13 @@ def ship_sunk(row, col):
                         return False
     return True
 
-
  
 def is_game_over():
     """
     function to check of the game is over
     and whether the player wins or looses
     """
-    global NUM_SHIPS_SUNK, NUMBER_SHIPS, SHOTS_LEFT, GAME_OVER
+    global NUM_SHIPS_SUNK, NUMBER_SHIPS, SHOTS_LEFT, GAME_OVER, GAME_TITLE
 
     if NUMBER_SHIPS == NUM_SHIPS_SUNK:
         print("Congratulations, You Won!")
@@ -203,7 +205,11 @@ def is_game_over():
     elif SHOTS_LEFT <= 0:
         print("Youve run out of bullets, You lost the game!")
         print("Better luck next time!")
+        print("     ----- Thank You for playing -----     ")
+        print(GAME_TITLE)
+        print("--------------------")
         GAME_OVER = True
+
 
 def main():
     """
@@ -211,18 +217,10 @@ def main():
     determines what order the functions are run in
     controls the working of the game
     """
-    global GAME_OVER
+    global GAME_OVER, GAME_TITLE
 
     print("     ----- WELCOME TO -----     ")
-    print("""
-BBBB      A   TTTTT TTTTT L     EEEEE  SSS  H   H IIIII PPPP   SSS  
-B   B    A A    T     T   L     E     S   S H   H   I   P   P S   S
-B  B    A   A   T     T   L     E     S     H   H   I   P   P S    
-BBB     AAAAA   T     T   L     EEEEE  SSS  HHHHH   I   PPP    SSS  
-B  B    A   A   T     T   L     E         S H   H   I   P         S
-B   B   A   A   T     T   L     E     S   S H   H   I   P     S   S
-BBBB    A   A   T     T   LLLLL EEEEE  SSS  H   H IIIII P      SSS         
-""")
+    print(GAME_TITLE)
     print("--------------------")
 
     setup_game()
