@@ -31,8 +31,7 @@ def print_board():
     """
     Prints the board to the terminal
     """
-    global BOARD
-    global ALPHABET
+    global BOARD, ALPHABET
 
     debug_mode = False
 
@@ -57,11 +56,8 @@ def make_board():
     """
     Makes a 10x10 grid board and places down ships randomly.
     """
-    global BOARD
-    global BOARD_SIZE
-    global NUMBER_SHIPS
-    global SHIP_LOCATIONS
-
+    global BOARD, BOARD_SIZE, NUMBER_SHIPS, SHIP_LOCATIONS
+    
     random.seed(time.time())
 
     rows, cols = (BOARD_SIZE, BOARD_SIZE)
@@ -109,8 +105,7 @@ def attempt_ship_placement(row, col, direction, length):
     return place_ship(row_start, row_end, col_start, col_end)
 
 def place_ship(row_start, row_end, col_start, col_end):
-    global BOARD
-    global SHIP_LOCATIONS
+    global BOARD, SHIP_LOCATIONS
 
     if any(BOARD[r][c] != "." for r in range(row_start, row_end) for c in range(col_start, col_end)):
         return False
@@ -127,8 +122,7 @@ def valid_bullet():
     """
     Function to determine whether the input from the user is valid
     """
-    global ALPHABET
-    global BOARD
+    global ALPHABET, BOARD
 
     is_valid = False
     row = -1
@@ -157,10 +151,7 @@ def make_shot():
     """
     Function that allows the player to make a shot
     """
-    global BOARD
-    global NUM_SHIPS_SUNK
-    global SHOTS_LEFT
-    global GAME_OVER
+    global BOARD, NUM_SHIPS_SUNK, SHOTS_LEFT, GAME_OVER
 
     def ship_sunk(row, col):
         global SHIP_LOCATIONS
@@ -205,10 +196,7 @@ def is_game_over():
     function to check of the game is over
     and whether the player wins or looses
     """
-    global NUM_SHIPS_SUNK
-    global NUMBER_SHIPS
-    global SHOTS_LEFT
-    global GAME_OVER
+    global NUM_SHIPS_SUNK, NUMBER_SHIPS, SHOTS_LEFT, GAME_OVER
 
     if NUMBER_SHIPS == NUM_SHIPS_SUNK:
         print("Congratulations, You Won!")
@@ -237,7 +225,7 @@ B   B   A   A   T     T   L     E     S   S H   H   I   P     S   S
 BBBB    A   A   T     T   LLLLL EEEEE  SSS  H   H IIIII P      SSS         
 """)
     print("--------------------")
-    
+
     setup_game()
     print("You have 50 shots to destroy 4 Ships, Let the battle commence!\n")
     
