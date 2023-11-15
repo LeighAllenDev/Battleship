@@ -37,9 +37,6 @@ def setup_game():
     make_board()
 
 def print_board():
-    """
-    Prints the board to the terminal
-    """
     global BOARD, ALPHABET
 
     debug_mode = False
@@ -55,8 +52,8 @@ def print_board():
                 print(BOARD[row][col], end=" ")
         print("")
 
-    print(" ", end=" ")
-    for i in range(len(BOARD[0])):
+    print("  ", end="")
+    for i in range(1, len(BOARD[0]) + 1): 
         print(i, end=" ")
     print("")
 
@@ -133,11 +130,11 @@ def valid_bullet():
     global ALPHABET, BOARD
 
     max_row_letter = ALPHABET[BOARD_SIZE - 1]
-    max_col_number = BOARD_SIZE - 1
+    max_col_number = BOARD_SIZE
 
     is_valid = False
     while not is_valid:
-        place_bullet = input(f"Enter a row (A - {max_row_letter}), and a column (0 - {max_col_number}) such as B4: ").upper()
+        place_bullet = input(f"Enter a row (A - {max_row_letter}), and a column (0 - {max_col_number}) such as B1: ").upper()
         if (len(place_bullet) < 2 or len(place_bullet) > 3) or \
            (len(place_bullet) == 3 and BOARD_SIZE <= 10):
             print(f"Invalid input length. Please enter a letter (A - {max_row_letter}) for row and number (0 - {max_col_number}) for column.")
@@ -150,7 +147,11 @@ def valid_bullet():
             continue
 
         row = ALPHABET.find(place_bullet[0])
-        col = int(place_bullet[1:])
+        col = int(place_bullet[1:]) - 1
+        if not (0 <= row < BOARD_SIZE) or not (0 <= col < BOARD_SIZE):
+            print(f"Placement Error: Please enter a letter (A - {max_row_letter}) for row and number (1 - {max_col_number}) for column.")
+            continue
+        
         is_valid = True
 
     return row, col
