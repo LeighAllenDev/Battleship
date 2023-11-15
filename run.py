@@ -129,32 +129,31 @@ def place_ship(row_start, row_end, col_start, col_end):
 
 
 def valid_bullet():
-    """
-    Function to determine whether the input from the user is valid
-    """
     global ALPHABET, BOARD
 
+    max_row_letter = ALPHABET[BOARD_SIZE - 1]
+    max_col_number = BOARD_SIZE - 1
+
     is_valid = False
-    row = -1
-    col = -1
     while not is_valid:
-        place_bullet = input("Enter a row (A - J), and a column (0 - 9) such as B4: ")
-        place_bullet = place_bullet.upper()
-        if len(place_bullet) != 2:
-            print("Placement Error: Please enter ONE row and ONE column such as B4")
+        place_bullet = input(f"Enter a row (A - {max_row_letter}), and a column (0 - {max_col_number}) such as B4: ").upper()
+        if (len(place_bullet) < 2 or len(place_bullet) > 3) or \
+           (len(place_bullet) == 3 and BOARD_SIZE <= 10):
+            print(f"Invalid input length. Please enter a letter (A - {max_row_letter}) for row and number (0 - {max_col_number}) for column.")
             continue
+        if not place_bullet[0].isalpha() or place_bullet[0] > max_row_letter:
+            print(f"Invalid row letter. Please enter a letter (A - {max_row_letter}) for row.")
+            continue
+        if not place_bullet[1:].isdigit() or int(place_bullet[1:]) > max_col_number:
+            print(f"Invalid column number. Please enter a number (0 - {max_col_number}) for column.")
+            continue
+
         row = ALPHABET.find(place_bullet[0])
-        col = int(place_bullet[1])
-        if not (0 <= row < BOARD_SIZE) or not (0 <= col < BOARD_SIZE):
-            print("Placement Error: Please enter letter (A - J) for row and number (0 - 9) for column such as B4")
-            continue
-        if BOARD[row][col] == "#" or BOARD[row][col] == "X":
-            print("Shots already fired there, try another target!")
-            continue
-        if BOARD[row][col] == "." or BOARD[row][col] == "0":
-            is_valid = True
+        col = int(place_bullet[1:])
+        is_valid = True
 
     return row, col
+
 
 
 def make_shot():
