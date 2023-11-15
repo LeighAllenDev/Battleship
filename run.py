@@ -34,7 +34,6 @@ def setup_game():
         setup_game()
 
     BOARD = [["." for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
-    make_board()
 
 def print_board():
     """
@@ -212,26 +211,19 @@ def is_game_over():
 
 
 def main():
-    """
-    The main function
-    determines what order the functions are run in
-    controls the working of the game
-    """
-    global GAME_OVER, GAME_TITLE
-
     print("     ----- WELCOME TO -----     ")
-    print(GAME_TITLE)
+    print(GAME_TITLE)  
     print("--------------------")
 
     setup_game()
-    print(f"You have {SHOTS_LEFT} shots to destroy {NUMBER_SHIPS} Ships, Let the battle commence!\n")
-    
     make_board()
 
-    while GAME_OVER is False:
+    print(f"You have {SHOTS_LEFT} shots to destroy {NUMBER_SHIPS} Ships, Let the battle commence!\n")
+    
+    while not GAME_OVER:
         print_board()
         print("\nNumber of Ships remaining: " + str(NUMBER_SHIPS - NUM_SHIPS_SUNK))
-        print(f"You have {str(SHOTS_LEFT)} Shots remaining.\n")
+        print(f"You have {SHOTS_LEFT} Shots remaining.\n")
         make_shot()
         print("--------------------\n")
         print("")
@@ -239,3 +231,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
