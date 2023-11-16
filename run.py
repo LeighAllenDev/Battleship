@@ -178,7 +178,7 @@ def valid_bullet():
     while not is_valid:
         place_bullet = input(f"Enter a row (A - {max_row_letter}), and a column (1 - {max_col_number}) such as B1: ").upper()
 
-        pattern = f"^[A-{max_row_letter}](?:10|[1-9])$"
+        pattern = f"^[A-{max_row_letter}](?:{max_col_number}|[1-9]|1[0-9])$"
         if not re.match(pattern, place_bullet):
             print(f"Invalid input. Please enter a letter (A - {max_row_letter}) for row and number (1 - {max_col_number}) for column.")
             continue
