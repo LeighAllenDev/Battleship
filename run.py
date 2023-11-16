@@ -1,5 +1,6 @@
 import random
 import time
+import re
 
 #Global Variables
 BOARD_SIZE = 10
@@ -41,21 +42,22 @@ def print_board():
 
     debug_mode = False
 
-    ALPHABET = ALPHABET[:len(BOARD)]
+    ALPHABET = ALPHABET[:BOARD_SIZE]
+
+    print("   ", end="") 
+    for i in range(1, BOARD_SIZE + 1):
+        print(f"{i: >2}", end=" ")
+    print()
 
     for row in range(len(BOARD)):
-        print(ALPHABET[row], end=") ")
+        print(f"{ALPHABET[row]: <2}) ", end="")
         for col in range(len(BOARD[row])):
             if BOARD[row][col] == "0":
-                print("0" if debug_mode else ".", end=" ")
+                print("0" if debug_mode else ".", end="  ")
             else:
-                print(BOARD[row][col], end=" ")
-        print("")
+                print(BOARD[row][col], end="  ")
+        print()
 
-    print("  ", end="")
-    for i in range(1, len(BOARD[0]) + 1): 
-        print(i, end=" ")
-    print("")
 
 
 def make_board():
@@ -134,27 +136,20 @@ def valid_bullet():
 
     is_valid = False
     while not is_valid:
-        place_bullet = input(f"Enter a row (A - {max_row_letter}), and a column (0 - {max_col_number}) such as B1: ").upper()
-        if (len(place_bullet) < 2 or len(place_bullet) > 3) or \
-           (len(place_bullet) == 3 and BOARD_SIZE <= 10):
-            print(f"Invalid input length. Please enter a letter (A - {max_row_letter}) for row and number (0 - {max_col_number}) for column.")
-            continue
-        if not place_bullet[0].isalpha() or place_bullet[0] > max_row_letter:
-            print(f"Invalid row letter. Please enter a letter (A - {max_row_letter}) for row.")
-            continue
-        if not place_bullet[1:].isdigit() or int(place_bullet[1:]) > max_col_number:
-            print(f"Invalid column number. Please enter a number (0 - {max_col_number}) for column.")
+        place_bullet = input(f"Enter a row (A - {max_row_letter}), and a column (1 - {max_col_number}) such as B1: ").upper()
+
+        pattern = f"^[A-{max_row_letter}](?:10|[1-9])$"
+        if not re.match(pattern, place_bullet):
+            print(f"Invalid input. Please enter a letter (A - {max_row_letter}) for row and number (1 - {max_col_number}) for column.")
             continue
 
         row = ALPHABET.find(place_bullet[0])
         col = int(place_bullet[1:]) - 1
-        if not (0 <= row < BOARD_SIZE) or not (0 <= col < BOARD_SIZE):
-            print(f"Placement Error: Please enter a letter (A - {max_row_letter}) for row and number (1 - {max_col_number}) for column.")
-            continue
-        
+
         is_valid = True
 
     return row, col
+
 
 
 
