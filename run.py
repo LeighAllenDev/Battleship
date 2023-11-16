@@ -51,28 +51,26 @@ def setup_game():
     BOARD = [["." for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 
 
-
 def print_board():
     global BOARD, ALPHABET
 
     debug_mode = False
 
-    ALPHABET = ALPHABET[:BOARD_SIZE]
+    displayed_alphabet = ALPHABET[:BOARD_SIZE]
 
     print("   ", end="") 
     for i in range(1, BOARD_SIZE + 1):
         print(f"{i: >2}", end=" ")
     print()
 
-    for row in range(len(BOARD)):
-        print(f"{ALPHABET[row]: <2}) ", end="")
-        for col in range(len(BOARD[row])):
+    for row in range(BOARD_SIZE):
+        print(f"{displayed_alphabet[row]: <2}) ", end="")
+        for col in range(BOARD_SIZE):
             if BOARD[row][col] == "0":
                 print("0" if debug_mode else ".", end="  ")
             else:
                 print(BOARD[row][col], end="  ")
         print()
-
 
 
 def make_board():
