@@ -259,7 +259,7 @@ def is_game_over():
 
 def main():
     """
-    Function to control the oder the functions run in the game
+    Function to control the order the functions run in the game
     """
     print("     ----- WELCOME TO BATTLESHIPS -----     ")
     print(GAME_TITLE)
@@ -283,8 +283,16 @@ def main():
             print("")
             is_game_over()
 
-        response = input("Do you want to play again? (yes/no): ").lower()
-        play_again = response in ["yes", "y"]
+        while True:  # Adding a loop to handle the play again query
+            response = input("Do you want to play again? (yes/no): ").lower().strip()
+            if response in ["yes", "y"]:
+                play_again = True
+                break
+            elif response in ["no", "n"]:
+                play_again = False
+                break
+            else:
+                print("Invalid response. Please enter 'yes' or 'no'.")
 
 if __name__ == "__main__":
     main()
