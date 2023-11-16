@@ -95,8 +95,7 @@ def make_board():
     attempts = 0
 
     while number_ships_placed < NUMBER_SHIPS:
-        if attempts > 50:
-            print("Unable to place all ships. Restarting ship placement.")
+        if attempts > 10:
             BOARD = [["." for _ in range(cols)] for _ in range(rows)]
             SHIP_LOCATIONS = []
             number_ships_placed = 0
@@ -159,7 +158,6 @@ def place_ship(row_start, row_end, col_start, col_end):
     for r in range(row_start, row_end + 1):
         for c in range(col_start, col_end + 1):
             BOARD[r][c] = "0"
-            print(f"Placing ship part at {r}, {c}")
 
     return True
 
@@ -283,7 +281,7 @@ def main():
             print("")
             is_game_over()
 
-        while True:  # Adding a loop to handle the play again query
+        while True:
             response = input("Do you want to play again? (yes/no): ").lower().strip()
             if response in ["yes", "y"]:
                 play_again = True
