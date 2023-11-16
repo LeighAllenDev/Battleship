@@ -7,6 +7,7 @@ BOARD_SIZE = 10
 MAX_BOARD_SIZE = 20
 NUMBER_SHIPS = 4
 MAX_SHIPS = 10
+MAX_SHIPS_ALLOWED = 2
 SHOTS_LEFT = 50
 ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 BOARD = [["." for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
@@ -33,14 +34,13 @@ def setup_game():
                 print(f"Invalid board size. Please enter a size between 5 and {MAX_BOARD_SIZE}.")
                 continue
 
-            # Calculate the maximum number of ships based on board size
-            max_ships_allowed = BOARD_SIZE**2 // 5  # For example, 20% of the board's cells
+            max_ships_allowed = (BOARD_SIZE * BOARD_SIZE) // 5 
 
             NUMBER_SHIPS = int(input("Enter the number of ships: "))
-            if not 1 <= NUMBER_SHIPS <= min(MAX_SHIPS, max_ships_allowed):
-                print(f"Invalid number of ships. Please enter a number between 1 and {min(MAX_SHIPS, max_ships_allowed)}.")
+            if not 1 <= NUMBER_SHIPS <= max_ships_allowed:
+                print(f"Invalid number of ships. Please enter a number between 1 and {max_ships_allowed}.")
                 continue
-            
+
             SHOTS_LEFT = NUMBER_SHIPS * 3 + int(BOARD_SIZE**2 * 0.15)
             print(f"You will have {SHOTS_LEFT} shots for this game.")
             
@@ -74,27 +74,34 @@ def print_board():
 
 
 def make_board():
-    """
-    Makes a 10x10 grid board and places down ships randomly.
-    """
     global BOARD, BOARD_SIZE, NUMBER_SHIPS, SHIP_LOCATIONS
     
     random.seed(time.time())
 
     rows, cols = (BOARD_SIZE, BOARD_SIZE)
-
     BOARD = [["." for _ in range(cols)] for _ in range(rows)]
-
-    number_ships_placed = 0
     SHIP_LOCATIONS = []
 
-    while number_ships_placed != NUMBER_SHIPS:
+    number_ships_placed = 0
+    attempts = 0
+
+    while number_ships_placed < NUMBER_SHIPS:
+        if attempts > 50:
+            print("Unable to place all ships. Restarting ship placement.")
+            BOARD = [["." for _ in range(cols)] for _ in range(rows)]
+            SHIP_LOCATIONS = []
+            number_ships_placed = 0
+            attempts = 0
+
         random_row = random.randint(0, rows - 1)
         random_col = random.randint(0, cols - 1)
         direction = random.choice(["left", "right", "up", "down"])
-        ship_size = random.randint(3, 5)
+        ship_size = random.randint(2, min(3, BOARD_SIZE // 2))
+
         if attempt_ship_placement(random_row, random_col, direction, ship_size):
             number_ships_placed += 1
+
+        attempts += 1
 
 
 def attempt_ship_placement(row, col, direction, length):
@@ -128,8 +135,8 @@ def attempt_ship_placement(row, col, direction, length):
 def place_ship(row_start, row_end, col_start, col_end):
     global BOARD, SHIP_LOCATIONS
 
-    for r in range(max(0, row_start - 1), min(BOARD_SIZE, row_end + 2)):
-        for c in range(max(0, col_start - 1), min(BOARD_SIZE, col_end + 2)):
+    for r in range(row_start, row_end + 1):
+        for c in range(col_start, col_end + 1):
             if BOARD[r][c] != ".":
                 return False
 
@@ -137,8 +144,10 @@ def place_ship(row_start, row_end, col_start, col_end):
     for r in range(row_start, row_end + 1):
         for c in range(col_start, col_end + 1):
             BOARD[r][c] = "0"
+            print(f"Placing ship part at {r}, {c}")
 
     return True
+
 
 
 def valid_bullet():
@@ -159,11 +168,13 @@ def valid_bullet():
         row = ALPHABET.find(place_bullet[0])
         col = int(place_bullet[1:]) - 1
 
+        if not (0 <= row < BOARD_SIZE) or not (0 <= col < BOARD_SIZE):
+            print(f"Invalid coordinates. Please enter a valid row and column within the board range.")
+            continue
+
         is_valid = True
 
     return row, col
-
-
 
 
 def make_shot():
@@ -223,15 +234,14 @@ def is_game_over():
 
 
 def main():
+    print("     ----- WELCOME TO BATTLESHIPS -----     ")
+    print(GAME_TITLE)
+    print("--------------------")
+
     play_again = True
-
     while play_again:
-        print("     ----- WELCOME TO BATTLESHIPS -----     ")
-        print(GAME_TITLE)
-        print("--------------------")
-
-        setup_game()  # Set up the game parameters and create the game board
-
+        setup_game()
+        make_board()
         print(f"You have {SHOTS_LEFT} shots to destroy {NUMBER_SHIPS} Ships, Let the battle commence!\n")
         
         global GAME_OVER
@@ -246,7 +256,6 @@ def main():
             print("")
             is_game_over()
 
-        # Ask if the player wants to play again
         response = input("Do you want to play again? (yes/no): ").lower()
         play_again = response in ["yes", "y"]
 
