@@ -294,9 +294,8 @@ def main():
 
     play_again = True
     while play_again:
-        global NUM_SHIPS_SUNK, SHIP_LOCATIONS, BOARD, GAME_OVER  # Declare global variables
+        global NUM_SHIPS_SUNK, SHIP_LOCATIONS, BOARD, GAME_OVER
 
-        # Reset game state variables for a new game
         NUM_SHIPS_SUNK = 0
         SHIP_LOCATIONS = []
         BOARD = [["." for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
