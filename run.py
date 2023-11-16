@@ -25,6 +25,9 @@ BBBB    A   A   T     T   LLLLL EEEEE  SSS  H   H IIIII P      SSS
 """
 
 def setup_game():
+    """
+    Function to set up the game perameters
+    """
     global BOARD_SIZE, NUMBER_SHIPS, SHOTS_LEFT, BOARD
 
     while True:
@@ -52,6 +55,9 @@ def setup_game():
 
 
 def print_board():
+    """
+    Function that prints the board to the terminal
+    """
     global BOARD, ALPHABET
 
     debug_mode = False
@@ -74,6 +80,9 @@ def print_board():
 
 
 def make_board():
+    """
+    Function to make the board
+    """
     global BOARD, BOARD_SIZE, NUMBER_SHIPS, SHIP_LOCATIONS
     
     random.seed(time.time())
@@ -105,6 +114,9 @@ def make_board():
 
 
 def attempt_ship_placement(row, col, direction, length):
+    """
+    Function to calculate ship placement
+    """
     global BOARD_SIZE
 
     row_start, row_end, col_start, col_end = row, row, col, col
@@ -133,6 +145,9 @@ def attempt_ship_placement(row, col, direction, length):
 
 
 def place_ship(row_start, row_end, col_start, col_end):
+    """
+    Function to place a ship on the board
+    """
     global BOARD, SHIP_LOCATIONS
 
     for r in range(row_start, row_end + 1):
@@ -151,6 +166,9 @@ def place_ship(row_start, row_end, col_start, col_end):
 
 
 def valid_bullet():
+    """
+    Function that determines whether shots are valid
+    """
     global ALPHABET, BOARD
 
     max_row_letter = ALPHABET[BOARD_SIZE - 1]
@@ -178,6 +196,9 @@ def valid_bullet():
 
 
 def make_shot():
+    """
+    Function to make a shot
+    """
     global BOARD, NUM_SHIPS_SUNK, SHOTS_LEFT
 
     row, col = valid_bullet()
@@ -199,6 +220,9 @@ def make_shot():
 
 
 def ship_sunk(row, col):
+    """
+    Function to determine whether ships are sunk
+    """
     global SHIP_LOCATIONS, BOARD
 
     for location in SHIP_LOCATIONS:
@@ -234,6 +258,9 @@ def is_game_over():
 
 
 def main():
+    """
+    Function to control the oder the functions run in the game
+    """
     print("     ----- WELCOME TO BATTLESHIPS -----     ")
     print(GAME_TITLE)
     print("--------------------")
