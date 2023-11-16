@@ -44,9 +44,10 @@ def setup_game():
                 print(f"Invalid number of ships. Please enter a number between 1 and {max_ships_allowed}.")
                 continue
 
-            SHOTS_LEFT = NUMBER_SHIPS * 3 + int(BOARD_SIZE**2 * 0.15)
+            base_shots = int(BOARD_SIZE**2 * 0.2)
+            additional_shots_per_ship = 3
+            SHOTS_LEFT = base_shots + (NUMBER_SHIPS * additional_shots_per_ship)
             print(f"You will have {SHOTS_LEFT} shots for this game.")
-            
             break
         except ValueError:
             print("Invalid input. Please enter a valid number.")
@@ -176,7 +177,7 @@ def valid_bullet():
     while not is_valid:
         place_bullet = input(f"Enter a row (A - {max_row_letter}), and a column (1 - {max_col_number}) such as B1: ").upper()
 
-        pattern = f"^[A-{max_row_letter}](?:{max_col_number}|[1-9]|1[0-9])$"
+        pattern = f"^[A-{max_row_letter}](?:[1-9]|1[0-9]|2[0-{BOARD_SIZE % 10}])$"
         if not re.match(pattern, place_bullet):
             print(f"Invalid input. Please enter a letter (A - {max_row_letter}) for row and number (1 - {max_col_number}) for column.")
             continue
