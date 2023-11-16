@@ -215,21 +215,32 @@ def is_game_over():
 
 
 def main():
-    print("     ----- WELCOME TO -----     ")
-    print(GAME_TITLE)  
-    print("--------------------")
-    setup_game()
-    print(f"You have {SHOTS_LEFT} shots to destroy {NUMBER_SHIPS} Ships, Let the battle commence!\n")
-    
-    while not GAME_OVER:
-        print_board()
-        print("\nNumber of Ships remaining: " + str(NUMBER_SHIPS - NUM_SHIPS_SUNK))
-        print(f"You have {SHOTS_LEFT} Shots remaining.\n")
-        make_shot()
-        print("--------------------\n")
-        print("")
-        is_game_over()
+    play_again = True
+
+    while play_again:
+        print("     ----- WELCOME TO BATTLESHIPS -----     ")
+        print(GAME_TITLE)
+        print("--------------------")
+
+        setup_game()  # Set up the game parameters and create the game board
+
+        print(f"You have {SHOTS_LEFT} shots to destroy {NUMBER_SHIPS} Ships, Let the battle commence!\n")
+        
+        global GAME_OVER
+        GAME_OVER = False
+
+        while not GAME_OVER:
+            print_board()
+            print("\nNumber of Ships remaining: " + str(NUMBER_SHIPS - NUM_SHIPS_SUNK))
+            print(f"You have {SHOTS_LEFT} Shots remaining.\n")
+            make_shot()
+            print("--------------------\n")
+            print("")
+            is_game_over()
+
+        # Ask if the player wants to play again
+        response = input("Do you want to play again? (yes/no): ").lower()
+        play_again = response in ["yes", "y"]
 
 if __name__ == "__main__":
     main()
-
