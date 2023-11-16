@@ -105,7 +105,7 @@ def make_board():
         random_row = random.randint(0, rows - 1)
         random_col = random.randint(0, cols - 1)
         direction = random.choice(["left", "right", "up", "down"])
-        ship_size = random.randint(2, min(3, BOARD_SIZE // 2))
+        ship_size = random.randint(2, min(6, BOARD_SIZE // 2))
 
         if attempt_ship_placement(random_row, random_col, direction, ship_size):
             number_ships_placed += 1
