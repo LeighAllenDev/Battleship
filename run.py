@@ -22,7 +22,21 @@ BBB     AAAAA   T     T   L     EEEEE  SSS  HHHHH   I   PPP    SSS
 B  B    A   A   T     T   L     E         S H   H   I   P         S
 B   B   A   A   T     T   L     E     S   S H   H   I   P     S   S
 BBBB    A   A   T     T   LLLLL EEEEE  SSS  H   H IIIII P      SSS
-"""
+\n"""
+WIN = """
+__  __               _       ___       __
+\ \/ /___  __  __   | |     / (_)___  / /
+ \  / __ \/ / / /   | | /| / / / __ \/ / 
+ / / /_/ / /_/ /    | |/ |/ / / / / /_/  
+/_/\____/\__,_/     |__/|__/_/_/ /_(_)
+\n"""
+LOOSE = """
+ __  __            __                         
+ \ \/ /__  __ __  / /  ___  ___  ___ ___      
+  \  / _ \/ // / / /__/ _ \/ _ \(_-</ -_) _ _ 
+  /_/\___/\_,_/ /____/\___/\___/___/\__(_|_|_)
+                                              
+\n"""
 
 def setup_game():
     """
@@ -47,7 +61,6 @@ def setup_game():
             base_shots = int(BOARD_SIZE**2 * 0.2)
             additional_shots_per_ship = 3
             SHOTS_LEFT = base_shots + (NUMBER_SHIPS * additional_shots_per_ship)
-            print(f"You will have {SHOTS_LEFT} shots for this game.")
             break
         except ValueError:
             print("Invalid input. Please enter a valid number.")
@@ -233,25 +246,40 @@ def ship_sunk(row, col):
                         return False
     return True
 
+
+def reveal_ships():
+    """
+    Reveals ships at the end of the game
+    """
+    global BOARD, SHIP_LOCATIONS
+
+    for ship in SHIP_LOCATIONS:
+        row_start, row_end, col_start, col_end = ship
+        for r in range(row_start, row_end + 1):
+            for c in range(col_start, col_end + 1):
+                if BOARD[r][c] == "0":
+                    BOARD[r][c] = "S" 
+
  
 def is_game_over():
     """
     function to check of the game is over
     and whether the player wins or looses
     """
-    global NUM_SHIPS_SUNK, NUMBER_SHIPS, SHOTS_LEFT, GAME_OVER, GAME_TITLE
+    global NUM_SHIPS_SUNK, NUMBER_SHIPS, SHOTS_LEFT, GAME_OVER, GAME_TITLE, WIN, LOOSE
 
     if NUMBER_SHIPS == NUM_SHIPS_SUNK:
-        print("Congratulations, You Won!\n")
-        print("     ----- Thank You for playing -----     ")
-        print(GAME_TITLE)
-        print("--------------------")
+        print(WIN)
+        
         GAME_OVER = True
     elif SHOTS_LEFT <= 0:
-        print("Youve run out of bullets, You lost the game!")
+        print("Youve run out of bullets")
+        print("--------------------")
+        print(LOOSE)
+        print("--------------------")
         print("Better luck next time!")
-        print("     ----- Thank You for playing -----     ")
-        print(GAME_TITLE)
+        reveal_ships()
+        print_board()
         print("--------------------")
         GAME_OVER = True
 
@@ -260,25 +288,30 @@ def main():
     """
     Function to control the order the functions run in the game
     """
-    print("     ----- WELCOME TO BATTLESHIPS -----     ")
+    print("---------- WELCOME TO BATTLESHIPS ----------")
     print(GAME_TITLE)
     print("--------------------")
 
     play_again = True
     while play_again:
+        global NUM_SHIPS_SUNK, SHIP_LOCATIONS, BOARD, GAME_OVER  # Declare global variables
+
+        # Reset game state variables for a new game
+        NUM_SHIPS_SUNK = 0
+        SHIP_LOCATIONS = []
+        BOARD = [["." for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+        GAME_OVER = False
+
         setup_game()
         make_board()
         print(f"You have {SHOTS_LEFT} shots to destroy {NUMBER_SHIPS} Ships, Let the battle commence!\n")
-        
-        global GAME_OVER
-        GAME_OVER = False
 
         while not GAME_OVER:
             print_board()
             print("\nNumber of Ships remaining: " + str(NUMBER_SHIPS - NUM_SHIPS_SUNK))
             print(f"You have {SHOTS_LEFT} Shots remaining.\n")
             make_shot()
-            print("--------------------\n")
+            print("--------------------")
             print("")
             is_game_over()
 
@@ -289,9 +322,13 @@ def main():
                 break
             elif response in ["no", "n"]:
                 play_again = False
+                print("\n     ----- Thank You for playing -----     ")
+                print(GAME_TITLE)
+                print("--------------------")
                 break
             else:
                 print("Invalid response. Please enter 'yes' or 'no'.")
 
 if __name__ == "__main__":
     main()
+
