@@ -4,7 +4,9 @@ import re
 
 #Global Variables
 BOARD_SIZE = 10
+MAX_BOARD_SIZE = 20
 NUMBER_SHIPS = 4
+MAX_SHIPS = 10
 SHOTS_LEFT = 50
 ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 BOARD = [["." for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
@@ -22,20 +24,33 @@ BBBB    A   A   T     T   LLLLL EEEEE  SSS  H   H IIIII P      SSS
 """
 
 def setup_game():
-    """
-    Function to allow the user to set up the game
-    """
     global BOARD_SIZE, NUMBER_SHIPS, SHOTS_LEFT, BOARD
-    try:
-        BOARD_SIZE = int(input("Enter board size (e.g., 10 for a 10x10 board): "))
-        NUMBER_SHIPS = int(input("Enter the number of ships: "))
-        SHOTS_LEFT = int(input("Enter the number of shots you have: "))
-    except ValueError:
-        print("Invalid input. Please enter a valid number.")
-        setup_game()
+
+    while True:
+        try:
+            BOARD_SIZE = int(input("Enter board size (e.g., 10 for a 10x10 board): "))
+            if not 5 <= BOARD_SIZE <= MAX_BOARD_SIZE:
+                print(f"Invalid board size. Please enter a size between 5 and {MAX_BOARD_SIZE}.")
+                continue
+
+            # Calculate the maximum number of ships based on board size
+            max_ships_allowed = BOARD_SIZE**2 // 5  # For example, 20% of the board's cells
+
+            NUMBER_SHIPS = int(input("Enter the number of ships: "))
+            if not 1 <= NUMBER_SHIPS <= min(MAX_SHIPS, max_ships_allowed):
+                print(f"Invalid number of ships. Please enter a number between 1 and {min(MAX_SHIPS, max_ships_allowed)}.")
+                continue
+            
+            SHOTS_LEFT = NUMBER_SHIPS * 3 + int(BOARD_SIZE**2 * 0.15)
+            print(f"You will have {SHOTS_LEFT} shots for this game.")
+            
+            break
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
 
     BOARD = [["." for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
-    make_board()
+
+
 
 def print_board():
     global BOARD, ALPHABET
