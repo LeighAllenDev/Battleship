@@ -18,7 +18,7 @@ Legend:
     * [Game Set Up](#game-set-up)
     * [Playing the Game](#playing-the-game)
     * [How to Win](#how-to-win)
-
+3. [Features](#features)
 
 ## How to Play
 Here are the Instructions for how to play the game:
