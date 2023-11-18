@@ -74,8 +74,12 @@ The amount of shots that the user is given is automatically generated based on t
 The board is easily laid out and the shots are clearly displayed so the user knows whether they have hit or missed a ship. there are also text prompts after every shot to tell the user the outcome of their shot.
 
 The game utilizes ascii art to signify whether the player wins or looses. Examples of this can be seen in the *How to Win* section above.
+#### Reveal Ships
+If you loose the game, the board is printed again but this time with the remaining ships on it. This allows the user to see how close their guesses were and how close to winning the may have been.
 #### Play Again Option
 At the end of the game, the user is given the option to play again. If they pick yes then the board and ship locations reset and the code effectively restarts allowing them to choose a new board size and amount of ships they have to hit. This gives variety to the game and allows the user to customise each new instance of the game.
+
+
 ## Planning Phase
 
 ### User Stories
@@ -83,6 +87,7 @@ During the market research stage of this project, potential users asked the foll
 * A user would like the ability to change the size of the board to make it either easier or more of a challenge as they don't often see this in a terminal based game.
 * Users wanted the ability to change the amount of ships they have to find as this will give them a customised experience and change the difficulty.
 * Users want a dinamic experience and the ability to play again at the end of the game. They said a lot of terminal games do not give the option to play again or personalise each game.
+* A user pointed out that they should be able to see the locations of any remaining ships at the end of the game, so they can see how close they were to winning. 
 ### Site Aims
 * The site aims to give the user the chance to play a customizable version of the classic battleships game on the browser window or a terminal with no other software required. 
 * It aims to allow the user to play on a size board they choose and a difficulty level they can pick with no coding or programing experience.
@@ -104,24 +109,53 @@ The game is made up of 10 core functions which work together to make main game w
 * **Valid_Bullet** - This function takes in the users input for making the shot, calculates whether the input is valid i.e a single letter followed by a 1 or 2 digit number depending on the size of the board. If the input doesn't meet the requirements an error message is displayed to the user.
 * **Make_Shot** - Once all the calculations have been made, this function is responsible for displaying the shot on the board and working out whether a ship has been hit.
 * **Ship_Sunk** - This function is determines whether all parts of a ship have been shot, if they have it displays the message to the user and the number of ships remaining drops by one.
+* **Is_Game_Over** - This function runs to check to see if the game is still going and calculates whether the user wins or looses the game then displays the output based on the calculations.
+* **Reveal_Ships**
+* **Main**
 
 ### Logic Flow
 
 ## Testing Phase
+I have spent weeks going through this code, googling solutions, consulting AI and playing the game more times than I care to admit, just to make sure it works as expected.
 ### Manual Testing
 Wnen creating this game I tested every function thoroughly to make sure it was performing how I expected. I have played the game thousands of times at this point, trying to find errors in the code and ways to broke the game. 
 
 For every new feature, such as changing the board size, I tested how this would appear and made sure corectly and that everything lined up in the rows and columns. 
 
 I tested with invalid input methods to see what the outcomes would be and this allowed me to adjust my code to prevent these inputs from causing issues.
+
+I also built in a debug mode to the code so if needed I can show all the ship locations and where the function is trying to print them incase there are any issues.
 ### Bugs and Fixes
 Bugs that I came across during the development and testing of this project include: 
-* **Number Alignment** - During the majority of testing phase, the grid wasn't properly aligned. The Alphabet was aligning with the dots correctly, however the numbers (originally positioned at the bottom of the grid) were off-centred and it didn't give a good experience for the player.
 
-    I fixed this by positioning the numbers at the top of the board and providing more space between each number to align single digits with the dots and the first character of double digets to the dots as well.
-* **Invalid Inputs** - 
+**Number Alignment**
+
+During the majority of testing phase, the grid wasn't properly aligned. The Alphabet was aligning with the dots correctly, however the numbers (originally positioned at the bottom of the grid) were off-centred and it didn't give a good experience for the player.
+
+I fixed this by positioning the numbers at the top of the board and providing more space between each number to align single digits with the dots and the first character of double digets to the dots as well.
+    
+**Invalid Inputs** 
+
+There bugs with every section that required user inputs as initially there was no failsafe if the program encountered unnexpected imputs. Each input bug is as follows:
+
+**Board Size**
+
+* Initially there was no way to change the board size and it was fixed as 10x10. This worked but the function that makes the board was originally taking values between 0-9 as the range of columns started on 0. This was eventually fixed as I changed the range between 1-10. 
+* Another issue arose when making the size of the ship customizable. I made the error to not limit the size of the board, the original code made it max out at 80x80 and it could go as small as 1x1 while still trying to place the desired amount of ships on the board.
+    * I fixed the size to only accept values between 5 and 20, this gave the user customisability without it being too easy or far too dificult. It also made it more likely that the ships would fit on the board.
+
+
+
+
 ### Post Development Testing
+Once I was happy with my code and that the game functioned as intended I then tested my code in the Code Institute Python linter. This showed that allot of my code was too long to fit on the lines so I had to work out ways of reducing line lengths.
 
+For the most part this was just in print statements which I simply put in tripple quotes to allow multi-line statements. there were a few lines of code where I had to work out how to apply multiple lines to them or shink them. For these I utilised Stack Overflow as well as ChatGPT.
+
+The result can be seen below.
+(picture of screenshot from linter)
+
+As you can see, it still claims to have a few issues, all of these are actually the make up of the win and loose messages.
 ## Technologies Used
 This project is solely made in the popular programing languge Python3 and it has been built using Visual Studio Code and a GitHub repository. The project is deployed with Heroku.
 ## Deployment
