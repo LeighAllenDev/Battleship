@@ -25,10 +25,8 @@ Legend:
     * [User Stories](#user-stories)
     * [Site Aims](#site-aims)
     * [How This Is Achieved](#how-this-is-achieved)
-    * [Game Play Flow chart](#game-play-flow-chart)
 5. [Data Model](#data-model)
     * [Overview of Functions](#overview-of-functions)
-    * [Logic Flow](#logic-flow)
 6. [Testing Phase](#testing-phase)
     * [Manual Testing](#manual-testing)
     * [Bugs and Fixes](#bugs-and-fixes)
@@ -79,13 +77,12 @@ The amount of shots that the user is given is automatically generated based on t
 The board is easily laid out and the shots are clearly displayed so the user knows whether they have hit or missed a ship. there are also text prompts after every shot to tell the user the outcome of their shot.
 The game utilizes ascii art to signify whether the player wins or looses. Examples of this can be seen in the *How to Win* section above.
 #### Reveal Ships
+![Reveal Ships](/assets/images/reveal-ships.png)
 If you loose the game, the board is printed again but this time with the remaining ships on it. This allows the user to see how close their guesses were and how close to winning the may have been.
 #### Play Again Option
+![Play Again](/assets/images/play-again.png)
 At the end of the game, the user is given the option to play again. If they pick yes then the board and ship locations reset and the code effectively restarts allowing them to choose a new board size and amount of ships they have to hit. This gives variety to the game and allows the user to customise each new instance of the game.
-
-
 ## Planning Phase
-
 ### User Stories
 During the market research stage of this project, potential users asked the following:
 * A user would like the ability to change the size of the board to make it either easier or more of a challenge as they don't often see this in a terminal based game.
@@ -99,13 +96,9 @@ During the market research stage of this project, potential users asked the foll
 This is achieved in the following ways:
 * Deploying the game using Heroku allows for a terminal experience within the browser window without the need to install software such as an IDE.
 * Allowing the user to customize there experience with resizable boards and amount of ships, as well as being able to reset the board and number of ships for each game.
-### Game Play Flow Chart
-
 ## Data Model
-
 ### Overview of Functions
 The game is made up of 10 core functions which work together to make main game work. A brief overview of these functions is as follows:
-
 * **Setup_Game** - This function takes input from the user to determine the grid size, amount of ships they want to find and based of their choices, calculates the amount of shots the user gets.
 * **Make_board** - This function takes the results of the user input and runs the calculations to make the board as well as calculating the ship size and direction then asigns their locations.
 * **Print_Board** - Once all the calculations have been made, the board is then printed to the terminal with this function.
@@ -116,7 +109,6 @@ The game is made up of 10 core functions which work together to make main game w
 * **Is_Game_Over** - This function runs to check to see if the game is still going and calculates whether the user wins or looses the game then displays the output based on the calculations.
 * **Reveal_Ships** - This function runs at the end of the game if the user looses, it is responsible for displaying the locations of the remaining ships on the board.
 * **Main** - The main function is the most important as it controls the order of all the functions and determins the glow of the game.
-### Logic Flow
 
 ## Testing Phase
 I have spent weeks going through this code, googling solutions, consulting AI and playing the game more times than I care to admit, just to make sure it works as expected.
@@ -152,10 +144,16 @@ I fixed the size to only accept values between 5 and 20, this gave the user cust
 **Ship Placement**
 
 Having the ships randomly generated and sized caused a number of issues in the development of the game.
-* The ships were originally randomly sized between 2 and 3 spaces long, if the board was too large these were near impossible to find, if the board was too small there was a risk of these overlapping and crashing the code. 
-* The code has to calculate the 
+* The ships were originally randomly sized between 2 and 3 spaces long, if the board was too large these were near impossible to find, if the board was too small there was a risk of these overlapping and crashing the code.
+* The ship size calculation has been modified so ships can be between two and six spaces long and then an additional calculation is made to make sure all the ships can be fully placed on the board without hanging off the edges, as this was also causing the game to crash.
+* The code has to calculate whether the amount of ships will fit on the board without overlapping and if they don't then the user will be promted to choose a more specific amount of ships. This is achieved by making sure the total ship spaces take up less than 20% of the overall board size.
 
+**Making Shots**
 
+If the board was over 10x10 the game was crashing whenever the user tried to hit a 2 digit number such as T14. This was due to an error in my code that was only allowing a two character input as one letter and one number. I then fixed the code to take in a single letter and two numbers as long as the first number started with 1 or 2. this resolved the issue.
+
+**Resetting the Game**
+At the end of the game the user is asked to play again, if they select yes then they are asked a board size and amount of ships again. The board was printing the same size and amount of ships as the previous game regardless of the users choices. This was fixed by setting a function within the main to reset the board and allow the users choices to be accepted. 
 
 ### Post Development Testing
 Once I was happy with my code and that the game functioned as intended I then tested my code in the Code Institute Python linter. This showed that allot of my code was too long to fit on the lines so I had to work out ways of reducing line lengths.
@@ -169,7 +167,21 @@ As you can see, it still claims to have a few issues, all of these are actually 
 ## Technologies Used
 This project is solely made in the popular programing languge Python3 and it has been built using Visual Studio Code and a GitHub repository. The project is deployed with Heroku.
 ## Deployment
-
+This project is deployed to Heroku using this process:
+1. Log in to Heroku
+2. click the **New** button on the dashboard
+3. Select *Create new app* in the dropdown menu
+4. Choose a unique name for the project
+5. select a region for the app
+6. click **Create App**
+7. In the deploy page, click on the settings tab
+8. Scroll down to *Config Vars* and click **Reveal Config Vars** and set the *Key* as **port** and the *value* as **8000** then click **add**
+9. Scroll down to Buildpacks and select *Python* then save changes
+10. Do this again selecting *Node.js* and saving again
+11. From the top navigate back to the **Deploy** tab
+12. Select **Github** As the deployment method and connect to Github
+13. Search for the repository name and click connect
+14. Click deploy at the bottom of the page.
 ## Credits
 ### Honerable Mentions
 * My Code Institute mentor Richard Wells has been a great help during this project as well as teaching me a lot about how python programs should run.
