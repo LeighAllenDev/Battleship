@@ -75,7 +75,7 @@ The board is easily laid out and the shots are clearly displayed so the user kno
 
 The game utilizes ascii art to signify whether the player wins or looses. Examples of this can be seen in the *How to Win* section above.
 #### Play Again Option
-
+At the end of the game, the user is given the option to play again. If they pick yes then the board and ship locations reset and the code effectively restarts allowing them to choose a new board size and amount of ships they have to hit. This gives variety to the game and allows the user to customise each new instance of the game.
 ## Planning Phase
 
 ### User Stories
@@ -102,16 +102,24 @@ The game is made up of 10 core functions which work together to make main game w
 * **Print_Board** - Once all the calculations have been made, the board is then printed to the terminal with this function.
 * **Attempt_Ship_Placement** - This function calculates the placement of the ships based on their randomly generated size and attempts to place them on the board. These will be hidden from the user.
 * **Valid_Bullet** - This function takes in the users input for making the shot, calculates whether the input is valid i.e a single letter followed by a 1 or 2 digit number depending on the size of the board. If the input doesn't meet the requirements an error message is displayed to the user.
-* **Make_Shot** - 
+* **Make_Shot** - Once all the calculations have been made, this function is responsible for displaying the shot on the board and working out whether a ship has been hit.
+* **Ship_Sunk** - This function is determines whether all parts of a ship have been shot, if they have it displays the message to the user and the number of ships remaining drops by one.
 
 ### Logic Flow
 
 ## Testing Phase
-
 ### Manual Testing
+Wnen creating this game I tested every function thoroughly to make sure it was performing how I expected. I have played the game thousands of times at this point, trying to find errors in the code and ways to broke the game. 
 
+For every new feature, such as changing the board size, I tested how this would appear and made sure corectly and that everything lined up in the rows and columns. 
+
+I tested with invalid input methods to see what the outcomes would be and this allowed me to adjust my code to prevent these inputs from causing issues.
 ### Bugs and Fixes
+Bugs that I came across during the development and testing of this project include: 
+* **Number Alignment** - During the majority of testing phase, the grid wasn't properly aligned. The Alphabet was aligning with the dots correctly, however the numbers (originally positioned at the bottom of the grid) were off-centred and it didn't give a good experience for the player.
 
+    I fixed this by positioning the numbers at the top of the board and providing more space between each number to align single digits with the dots and the first character of double digets to the dots as well.
+* **Invalid Inputs** - 
 ### Post Development Testing
 
 ## Technologies Used
