@@ -2,6 +2,7 @@
 ## Code Institute Learner Project 03
 
 ## Intro
+![Battleships](assets/images/welcome-message.png)
 Battleship is a classic naval strategy game. This project version is a text-based interpretation implemented in Python, where players attempt to sink a fleet of enemy ships before running out of available shots.
 
 The player chooses the board size, then chooses how many ships they have to find. The computer then calculates and places the ships on the board and provides the user with a calculated amount of shots to make the game fair yet balanced. 
@@ -61,18 +62,21 @@ This is a 1 player game where the user plays against the computer to find all co
 
 ### How to Win
 To win the game you have to hit all the ships before you run out of bullets. Messages display in the terminal whether you win or loose:
-
+![Win](/assets/images/you-win.png)
+![Win](/assets/images/you-loose.png)
 
 ## Features
 #### Customisable Board Size
+![Board side](/assets/images/board-size.png)
 The user is able to choose their own board size between a 5x5 and 20x20 grid to give a wide array of size options which makes every time you play the game feel unique.
 #### Variable Number of Ships
 The user is able to decide how challenging their game is by choosing how many ships there are. There are some background calculations to make sure the board isn't overcrowded and that all the ships will be able to fit on the board without hanging off the edges.
 #### Dynamic Shot Calculation
+![pick ships](/assets/images/number-of-shots.png)
 The amount of shots that the user is given is automatically generated based on the amount of ships they have chosen and the size of the board.
 #### Intuiative UI
+![Small Board](/assets/images/5by5.png) ![Medium board](/assets/images/10by10.png) ![large board](/assets/images/20by20.png)
 The board is easily laid out and the shots are clearly displayed so the user knows whether they have hit or missed a ship. there are also text prompts after every shot to tell the user the outcome of their shot.
-
 The game utilizes ascii art to signify whether the player wins or looses. Examples of this can be seen in the *How to Win* section above.
 #### Reveal Ships
 If you loose the game, the board is printed again but this time with the remaining ships on it. This allows the user to see how close their guesses were and how close to winning the may have been.
@@ -110,9 +114,8 @@ The game is made up of 10 core functions which work together to make main game w
 * **Make_Shot** - Once all the calculations have been made, this function is responsible for displaying the shot on the board and working out whether a ship has been hit.
 * **Ship_Sunk** - This function is determines whether all parts of a ship have been shot, if they have it displays the message to the user and the number of ships remaining drops by one.
 * **Is_Game_Over** - This function runs to check to see if the game is still going and calculates whether the user wins or looses the game then displays the output based on the calculations.
-* **Reveal_Ships**
-* **Main**
-
+* **Reveal_Ships** - This function runs at the end of the game if the user looses, it is responsible for displaying the locations of the remaining ships on the board.
+* **Main** - The main function is the most important as it controls the order of all the functions and determins the glow of the game.
 ### Logic Flow
 
 ## Testing Phase
@@ -140,10 +143,17 @@ There bugs with every section that required user inputs as initially there was n
 
 **Board Size**
 
-* Initially there was no way to change the board size and it was fixed as 10x10. This worked but the function that makes the board was originally taking values between 0-9 as the range of columns started on 0. This was eventually fixed as I changed the range between 1-10. 
-* Another issue arose when making the size of the ship customizable. I made the error to not limit the size of the board, the original code made it max out at 80x80 and it could go as small as 1x1 while still trying to place the desired amount of ships on the board.
-    * I fixed the size to only accept values between 5 and 20, this gave the user customisability without it being too easy or far too dificult. It also made it more likely that the ships would fit on the board.
+Initially there was no way to change the board size and it was fixed as 10x10. This worked but the function that makes the board was originally taking values between 0-9 as the range of columns started on 0. This was eventually fixed as I changed the range between 1-10. 
 
+Another issue arose when making the size of the ship customizable. I made the error to not limit the size of the board, the original code made it max out at 80x80 and it could go as small as 1x1 while still trying to place the desired amount of ships on the board. 
+
+I fixed the size to only accept values between 5 and 20, this gave the user customisability without it being too easy or far too dificult. It also made it more likely that the ships would fit on the board.
+
+**Ship Placement**
+
+Having the ships randomly generated and sized caused a number of issues in the development of the game.
+* The ships were originally randomly sized between 2 and 3 spaces long, if the board was too large these were near impossible to find, if the board was too small there was a risk of these overlapping and crashing the code. 
+* The code has to calculate the 
 
 
 
@@ -153,7 +163,7 @@ Once I was happy with my code and that the game functioned as intended I then te
 For the most part this was just in print statements which I simply put in tripple quotes to allow multi-line statements. there were a few lines of code where I had to work out how to apply multiple lines to them or shink them. For these I utilised Stack Overflow as well as ChatGPT.
 
 The result can be seen below.
-(picture of screenshot from linter)
+![CI Linter](/assets/images/python-linter.png)
 
 As you can see, it still claims to have a few issues, all of these are actually the make up of the win and loose messages.
 ## Technologies Used
@@ -161,3 +171,13 @@ This project is solely made in the popular programing languge Python3 and it has
 ## Deployment
 
 ## Credits
+### Honerable Mentions
+* My Code Institute mentor Richard Wells has been a great help during this project as well as teaching me a lot about how python programs should run.
+* My Class Mates on Slack
+* Useful articles on stack overflow
+
+### References
+* The base for my project was a Tutorial by Jarvis Silva [Battleships tutorial](https://pythondex.com/python-battleship-game?utm_content=cmp-true)
+* ChatGPT has been helpful with parts of the code
+### Media
+The Win and Loose messages were generated with ascii art at [patorjk.com](https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20)
