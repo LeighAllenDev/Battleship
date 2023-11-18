@@ -2,7 +2,7 @@ import random
 import time
 import re
 
-#Global Variables
+# Global Variables
 BOARD_SIZE = 10
 MAX_BOARD_SIZE = 20
 NUMBER_SHIPS = 4
@@ -15,10 +15,10 @@ SHIP_LOCATIONS = []
 NUM_SHIPS_SUNK = 0
 GAME_OVER = False
 GAME_TITLE = """
-BBBB      A   TTTTT TTTTT L     EEEEE  SSS  H   H IIIII PPPP   SSS  
+BBBB      A   TTTTT TTTTT L     EEEEE  SSS  H   H IIIII PPPP   SSS
 B   B    A A    T     T   L     E     S   S H   H   I   P   P S   S
-B  B    A   A   T     T   L     E     S     H   H   I   P   P S    
-BBB     AAAAA   T     T   L     EEEEE  SSS  HHHHH   I   PPP    SSS  
+B  B    A   A   T     T   L     E     S     H   H   I   P   P S
+BBB     AAAAA   T     T   L     EEEEE  SSS  HHHHH   I   PPP    SSS
 B  B    A   A   T     T   L     E         S H   H   I   P         S
 B   B   A   A   T     T   L     E     S   S H   H   I   P     S   S
 BBBB    A   A   T     T   LLLLL EEEEE  SSS  H   H IIIII P      SSS
@@ -26,17 +26,17 @@ BBBB    A   A   T     T   LLLLL EEEEE  SSS  H   H IIIII P      SSS
 WIN = """
 __  __               _       ___       __
 \ \/ /___  __  __   | |     / (_)___  / /
- \  / __ \/ / / /   | | /| / / / __ \/ / 
- / / /_/ / /_/ /    | |/ |/ / / / / /_/  
+ \  / __ \/ / / /   | | /| / / / __ \/ /
+ / / /_/ / /_/ /    | |/ |/ / / / / /_/
 /_/\____/\__,_/     |__/|__/_/_/ /_(_)
 \n"""
 LOOSE = """
- __  __            __                         
- \ \/ /__  __ __  / /  ___  ___  ___ ___      
-  \  / _ \/ // / / /__/ _ \/ _ \(_-</ -_) _ _ 
+ __  __            __
+ \ \/ /__  __ __  / /  ___  ___  ___ ___
+  \  / _ \/ // / / /__/ _ \/ _ \(_-</ -_) _ _
   /_/\___/\_,_/ /____/\___/\___/___/\__(_|_|_)
-                                              
 \n"""
+
 
 def setup_game():
     """
@@ -46,21 +46,24 @@ def setup_game():
 
     while True:
         try:
-            BOARD_SIZE = int(input("Enter board size (e.g., 10 for a 10x10 board): "))
+            BOARD_SIZE = int(input("""Enter board size
+(e.g., 10 for a 10x10 board): """))
             if not 5 <= BOARD_SIZE <= MAX_BOARD_SIZE:
-                print(f"Invalid board size. Please enter a size between 5 and {MAX_BOARD_SIZE}.")
+                print(f"""Invalid board size.
+                Please enter a size between 5 and {MAX_BOARD_SIZE}.""")
                 continue
 
-            max_ships_allowed = (BOARD_SIZE * BOARD_SIZE) // 5 
+            max_ships_allowed = (BOARD_SIZE * BOARD_SIZE) // 5
 
             NUMBER_SHIPS = int(input("Enter the number of ships: "))
             if not 1 <= NUMBER_SHIPS <= max_ships_allowed:
-                print(f"Invalid number of ships. Please enter a number between 1 and {max_ships_allowed}.")
+                print(f"""Invalid number of ships.
+                Please enter a number between 1 and {max_ships_allowed}.""")
                 continue
 
             base_shots = int(BOARD_SIZE**2 * 0.2)
-            additional_shots_per_ship = 3
-            SHOTS_LEFT = base_shots + (NUMBER_SHIPS * additional_shots_per_ship)
+            extra_shots_per_ship = 3
+            SHOTS_LEFT = base_shots + (NUMBER_SHIPS * extra_shots_per_ship)
             break
         except ValueError:
             print("Invalid input. Please enter a valid number.")
@@ -78,7 +81,7 @@ def print_board():
 
     displayed_alphabet = ALPHABET[:BOARD_SIZE]
 
-    print("   ", end="") 
+    print("   ", end="")
     for i in range(1, BOARD_SIZE + 1):
         print(f"{i: >2}", end=" ")
     print()
@@ -98,7 +101,6 @@ def make_board():
     Function to make the board
     """
     global BOARD, BOARD_SIZE, NUMBER_SHIPS, SHIP_LOCATIONS
-    
     random.seed(time.time())
 
     rows, cols = (BOARD_SIZE, BOARD_SIZE)
@@ -120,7 +122,8 @@ def make_board():
         direction = random.choice(["left", "right", "up", "down"])
         ship_size = random.randint(2, min(6, BOARD_SIZE // 2))
 
-        if attempt_ship_placement(random_row, random_col, direction, ship_size):
+        if attempt_ship_placement(
+                random_row, random_col, direction, ship_size):
             number_ships_placed += 1
 
         attempts += 1
@@ -151,7 +154,8 @@ def attempt_ship_placement(row, col, direction, length):
             return False
         row_end = row + length - 1
 
-    if row_start < 0 or row_end >= BOARD_SIZE or col_start < 0 or col_end >= BOARD_SIZE:
+    if (row_start < 0 or row_end >= BOARD_SIZE
+        or col_start < 0 or col_end >= BOARD_SIZE):
         return False
 
     return place_ship(row_start, row_end, col_start, col_end)
@@ -176,7 +180,6 @@ def place_ship(row_start, row_end, col_start, col_end):
     return True
 
 
-
 def valid_bullet():
     """
     Function that determines whether shots are valid
@@ -188,18 +191,23 @@ def valid_bullet():
 
     is_valid = False
     while not is_valid:
-        place_bullet = input(f"Enter a row (A - {max_row_letter}), and a column (1 - {max_col_number}) such as B1: ").upper()
+        place_bullet = input(f"""Enter a row (A - {max_row_letter}),
+And a column (1 - {max_col_number}) such as B1: """).upper()
 
-        pattern = f"^[A-{max_row_letter}](?:[1-9]|1[0-9]|2[0-{BOARD_SIZE % 10}])$"
+        pattern = f"""^[A-{max_row_letter}](?:[1-9]|1
+        [0-9]|2[0-{BOARD_SIZE % 10}])$"""
         if not re.match(pattern, place_bullet):
-            print(f"Invalid input. Please enter a letter (A - {max_row_letter}) for row and number (1 - {max_col_number}) for column.")
+            print(f"""Invalid input. Please enter a letter
+            (A - {max_row_letter}) for row and number
+            (1 - {max_col_number}) for column.""")
             continue
 
         row = ALPHABET.find(place_bullet[0])
         col = int(place_bullet[1:]) - 1
 
         if not (0 <= row < BOARD_SIZE) or not (0 <= col < BOARD_SIZE):
-            print(f"Invalid coordinates. Please enter a valid row and column within the board range.")
+            print(f"""Invalid coordinates.
+Please enter a valid row and column within the board range.""")
             continue
 
         is_valid = True
@@ -227,7 +235,7 @@ def make_shot():
             NUM_SHIPS_SUNK += 1
         else:
             print("A ship has been shot")
-    
+
     SHOTS_LEFT -= 1
 
 
@@ -258,19 +266,20 @@ def reveal_ships():
         for r in range(row_start, row_end + 1):
             for c in range(col_start, col_end + 1):
                 if BOARD[r][c] == "0":
-                    BOARD[r][c] = "S" 
+                    BOARD[r][c] = "S"
 
- 
+
 def is_game_over():
     """
     function to check of the game is over
     and whether the player wins or looses
     """
-    global NUM_SHIPS_SUNK, NUMBER_SHIPS, SHOTS_LEFT, GAME_OVER, GAME_TITLE, WIN, LOOSE
+    global NUM_SHIPS_SUNK, NUMBER_SHIPS, SHOTS_LEFT
+    global GAME_OVER, GAME_TITLE, WIN, LOOSE
 
     if NUMBER_SHIPS == NUM_SHIPS_SUNK:
         print(WIN)
-        
+
         GAME_OVER = True
     elif SHOTS_LEFT <= 0:
         print("Youve run out of bullets")
@@ -303,11 +312,13 @@ def main():
 
         setup_game()
         make_board()
-        print(f"You have {SHOTS_LEFT} shots to destroy {NUMBER_SHIPS} Ships, Let the battle commence!\n")
+        print(f"""You have {SHOTS_LEFT} shots to destroy {NUMBER_SHIPS} Ships,
+Let the battle commence!\n""")
 
         while not GAME_OVER:
             print_board()
-            print("\nNumber of Ships remaining: " + str(NUMBER_SHIPS - NUM_SHIPS_SUNK))
+            print("")
+            print(f"Number of Ships remaining: {NUMBER_SHIPS - NUM_SHIPS_SUNK}")
             print(f"You have {SHOTS_LEFT} Shots remaining.\n")
             make_shot()
             print("--------------------")
@@ -315,7 +326,8 @@ def main():
             is_game_over()
 
         while True:
-            response = input("Do you want to play again? (yes/no): ").lower().strip()
+            response = input("""Do you want to play again?
+(yes/no): """).lower().strip()
             if response in ["yes", "y"]:
                 play_again = True
                 break
@@ -328,6 +340,6 @@ def main():
             else:
                 print("Invalid response. Please enter 'yes' or 'no'.")
 
+
 if __name__ == "__main__":
     main()
-
